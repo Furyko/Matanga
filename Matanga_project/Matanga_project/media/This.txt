@@ -1,0 +1,2 @@
+En este directorio se suben los archivos que se crean dinamicamente. Por ejemplo, si un usuario sube una foto. 
+Es decir que esta carpeta es para lo que no cargamos nosotros dsde nuestro servidor, sinó que se crean por medio de la interacción del usuario.

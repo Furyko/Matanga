@@ -1,0 +1,1 @@
+En esta carpeta van los archivos estaticos: imagenes, js, css, etc. Es decir, todo lo que nosotros cargamos desde nuestro servidor.

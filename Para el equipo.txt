@@ -1,0 +1,1 @@
+Este es el repositorio del proyecto. Acá podemos ir subiendo los cambios que vamos haciendo al sitio. Como todos vamos a poder hacer push, asegurense de tener una copia de seguridad de su código, porfa x'd.
