@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Matanga Game Quiz</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <style>
+            body{
+                background: #007bff;
+            }
+            .start_btn{
+                position: absolute;
+                top: 70%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+            }
+            .start_btn button{
+                font-size: 25px;
+                font-weight: 500;
+                color: black;
+                padding: 5px 80px;
+                border: none;
+                background: #003bff;
+                cursor: pointer;
+            }
+            .title_box{
+                position: absolute;
+                top: 40%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                padding: 125px 425px;
+                background: #003bff;
+                font-size: 30px;
+            }
+            .help_btn{
+                position: absolute;
+                top: 6%;
+                left: 13%;
+            }
+            .options_btn{
+                position: absolute;
+                top: 6%;
+                right: 13%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="start_btn"><button>Comenzar</button></div>
+        <div class="title_box">
+            <span>MATANGA</span>
+        </div>
+        <div class="help_btn">
+            {% load static %}
+            <button><img src="{% static 'help_btn.png' %}" width="50" height="50"></button>
+        </div>
+        <div class="options_btn">
+            <button><img src="{% static 'options_btn.png' %}" width="50" height="50"></button>
+        </div>
+    </body>
+    <footer>
+
+    </footer>
+</html>
