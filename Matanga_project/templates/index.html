@@ -3,8 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <title>Matanga Game Quiz</title>
-        <link rel="stylesheet" href="style.css">
-        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <!--<link rel="stylesheet" href="style.css">-->
+        {% load static %}
+        <link rel="icon" href="{% static 'favicon.ico' %}"> <!--Dejé este archivo para probar el icono, pero hay que reemplazarlo con el otro-->
+        <!--<script src="https://kit.fontawesome.com/a076d05399.js"></script>-->
         <style>
             body{
                 background: #007bff;
@@ -37,11 +39,57 @@
                 position: absolute;
                 top: 6%;
                 left: 13%;
+                cursor: pointer;
             }
             .options_btn{
                 position: absolute;
                 top: 6%;
                 right: 13%;
+                cursor: pointer;
+            }
+            .info_box{
+                /*display: none; Mientras esto esté en none, no se verá el recuadro de las reglas*/
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 540px;
+                background: #fff;
+                border-radius: 5px;
+            }
+            .info_box .info_title{
+                height: 60px;
+                width: 100%;
+                border-bottom: 1px solid black;
+                display: flex;
+                align-items: center;
+                font-size: 20px;
+                font-weight: 600;
+            }
+            .info_box .info_list .info{
+                margin: 5px 0;
+                font-size: 1;
+            }
+            .info_box .ok_rules_btn{
+                height: 60px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                padding: 0 35px;
+            }
+            .info_box .ok_rules_btn button{
+                margin: 0px;
+                height: 40px;
+                width: 100px;
+                border: 1px solid black;
+                background: cadetblue;
+                color: white;
+                font-size: 15px;
+                transition: all 0.3s ease;
+            }
+            .info_box .ok_rules_btn button:hover{
+                background: white;
+                color: black;
             }
         </style>
     </head>
@@ -52,11 +100,35 @@
         </div>
         <div class="help_btn">
             {% load static %}
-            <button><img src="{% static 'help_btn.png' %}" width="50" height="50"></button>
+            <button onclick="hide_info_box()"><img src="{% static 'help_btn.png' %}" width="50" height="50"></button>
         </div>
         <div class="options_btn">
             <button><img src="{% static 'options_btn.png' %}" width="50" height="50"></button>
         </div>
+        <div class="info_box">
+            <div class="info_title"><span>Reglas del juego</span></div>
+            <div class="info_list">
+                <div class="info">1. Regla numero uno.</div>
+                <div class="info">2. Regla numero dos.</div>
+                <div class="info">3. Regla numero tres.</div>
+                <div class="info">4. Regla numero cuatro.</div>
+            </div>
+            <div class="ok_rules_btn"><button onclick="hide_info_box()">OK</button></div>
+        </div>
+
+        <!--Javascript functions-->
+        <script>
+            const info_box = document.querySelector(".info_box")
+
+            function hide_info_box(){
+                if (info_box.style.display == "none") {
+                    info_box.style.display = "inline"
+                }
+                else {
+                    info_box.style.display = "none"
+                }
+            }
+        </script>
     </body>
     <footer>
 
