@@ -3,10 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <title>Matanga Game Quiz</title>
-        <!--<link rel="stylesheet" href="style.css">-->
         {% load static %}
-        <link rel="icon" href="{% static 'favicon.ico' %}"> <!--Dejé este archivo para probar el icono, pero hay que reemplazarlo con el otro-->
-        <!--<script src="https://kit.fontawesome.com/a076d05399.js"></script>-->
+        <link rel="icon" href="{% static 'favicon.ico' %}">
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> <!--JQuery-->
         <style>
             body{
                 background: #007bff;
@@ -116,7 +115,7 @@
             <div class="ok_rules_btn"><button onclick="hide_info_box()">OK</button></div>
         </div>
 
-        <!--Javascript functions-->
+        <!--Help button-->
         <script>
             const info_box = document.querySelector(".info_box")
 
