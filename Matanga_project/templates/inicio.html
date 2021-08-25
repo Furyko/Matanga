@@ -3,21 +3,61 @@
 
 {% block content %}
         <!--Esto es un comentario-->
-    
+        
+        <td height="380" colspan="3" valign="middle" class="bb">
 
-    
-    
+        </td>
+        <td height="380" colspan="3" valign="middle" class="bb">
+            <audio src="../Fondo.mp3" id="miAudio"></audio>
+        </td>
 
-    <div src="static 'help_btn.png'"></div>    
-    <div class="start_btn"><button>Comenzar</button></div>
+        <script>
+            document.getElementById("miAudio").play();
+        </script>
+
+    <div src="static 'help_btn.png'"></div> 
     
-    <br><br><br><br><br><br><br>
+    
+    <br><br><br>
     <div style="text-align:center">
-        <img style="text-align:center" src="../static/Logo.png" width="524" height="348" />
+        <img src="../static/Logo.png" width="524" height="348" />
+
         <h1 style="text-align:center" class= 'text-center' >MATANGA</h1> 
 
-        
     </div>
+<div style="text-align:center">
+
+    <style>
+        .mb-3 input {
+            font-size: 100%;
+            width: 300px;
+            height: 40px;
+            background-color: rgb(201, 201, 201);
+            background-image: url(../static/Logo.png);
+        }
+    </style>
+    <form>
+      
+          
+          <div  class="mb-3">  
+            <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="USUARIO">
+          </div>
+          <br>
+          <div class="mb-3">
+
+            <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="CLAVE">
+          </div>
+          <br>
+          <button type="button" class="btn btn-danger">Ingresar</button>
+          <br><br>
+          <button type="button" class="btn btn-link">Recuperar contraseña</button>
+
+        
+      </form>
+      
+    </div>
+    <br>
+
     <br><br><br><br><br><br>
 
 

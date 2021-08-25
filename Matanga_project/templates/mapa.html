@@ -4,14 +4,38 @@
 {% block content %}
         <!--Esto es un comentario-->
     
+        
 
-    <div src="static 'help_btn.png'"></div>    
-    <div src="static 'Logo.png'" class="start_btn"><button>Comenzar</button></div>
+    <div  src="static 'help_btn.png'" >
+
+    </div>    
+
+    <div class= "mapa">
+    <img  src="../static/Mapa.png" width="786" height="522"/>
+
     
-    <br><br><br><br><br><br><br>
+
+    </div>
+    <div class= "mapa" width="786" height="522"> 
+
+        <select style="font-size: 100%; width: 400px; height: 40px" name="instancia">
+            <option style="text-align:center" disabled selected=""> DIFICULTAD </option>
+
+            <option value="Ciclo normal">FÁCIL</option> 
+            <option value="Diciembre">NORMAL</option> 
+            <option value="Marzo">DIFÍCIL</option>
+        </select>
+        <br><br>
+        <select style="font-size: 100%; width: 400px; height: 40px" name="instancia">
+            <option style="text-align:center" disabled selected=""> PERSONAJE </option>
+            <option value="Ciclo normal">GAUCHO</option> 
+            <option value="Diciembre">CHINA</option> 
+        </select>
+        <br><br><br><br>
+        <button type="button" style="font-size: large;" class="btn btn-danger">JUGAR</button>
+    </div>
+
     <div style="text-align:center">
-        <img style="text-align:center" src="../static/Logo.png" width="524" height="348" />
-        <h1 style="text-align:center" class= 'text-center' >MAPA</h1> 
 
         
     </div>
