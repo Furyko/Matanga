@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
+from .models import Quiz
+from django.views.generic import ListView
 
 # Create your views here.
+
 def inicio(request):
     #return HttpResponse("You're at the quiz index.")
     template = loader.get_template('inicio.html')
@@ -18,15 +21,15 @@ def fin(request):
     template = loader.get_template('fin.html')
     return HttpResponse(template.render({}, request))
 
-def juego(request):
-    #return HttpResponse("You're at the quiz index.")
-    template = loader.get_template('juego.html')
-    return HttpResponse(template.render({}, request))
+def juego(request, pk):
+    quiz = Quiz.objects.get(pk=pk)
+    #template = loader.get_template('juego.html')
+    #return HttpResponse(template.render({}, request))
+    return render(request, 'juego.html', {'obj': quiz})
 
 def mapa(request):
-    #return HttpResponse("You're at the quiz index.")
-    template = loader.get_template('mapa.html')
-    return HttpResponse(template.render({}, request))
+    quiz = Quiz.objects.all()
+    return render(request, 'mapa.html', {'obj': quiz})
 
 def ranking(request):
     #return HttpResponse("You're at the quiz index.")

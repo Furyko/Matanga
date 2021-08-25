@@ -1,11 +1,11 @@
 from django.urls import path
+from django.contrib import admin
 
 from . import views
 
 urlpatterns = [
-    path('admin', views.admin, name='admin'),
     path('fin', views.fin, name='fin'),
-    path('juego', views.juego, name='juego'),
+    path('mapa/<pk>/', views.juego, name='juego'),
     path('mapa', views.mapa, name='mapa'),
     path('ranking', views.ranking, name='ranking'),
     path('recuperar', views.recuperar, name='recuperar'),

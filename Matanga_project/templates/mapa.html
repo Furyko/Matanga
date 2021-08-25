@@ -16,6 +16,10 @@
         
     </div>
     <br><br><br><br><br><br>
-
-
+    
+<!--Acá abajo se listan los departamentos para poder acceder a ellos y responder sus preguntas-->
+<div class="h1"><h1>Departamentos</h1></div>
+{% for obj in obj %}
+<p><a href="mapa/{{obj.pk}}">Departamento: {{obj.nombre}}, Cantidad de preguntas: {{obj.cantidad_de_preguntas}}, Dificultad: {{obj.dificultad}}</a></p>
+{% endfor %}
 {% endblock %}
