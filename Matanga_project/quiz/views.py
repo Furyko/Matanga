@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 
+from django.contrib.auth.forms import UserCreationForm
+from .forms import FormCrearUsuario
+
 # Create your views here.
 def inicio(request):
     #return HttpResponse("You're at the quiz index.")
@@ -40,8 +43,17 @@ def recuperar(request):
 
 def registro(request):
     #return HttpResponse("You're at the quiz index.")
-    template = loader.get_template('registro.html')
-    return HttpResponse(template.render({}, request))   
+    #template = loader.get_template('registro.html')
+    #return HttpResponse(template.render({}, request))
+    form = FormCrearUsuario()
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+    context = {'form':form}
+    return render(request, 'registro.html', context)
 
 def victoria(request):
     #return HttpResponse("You're at the quiz index.")

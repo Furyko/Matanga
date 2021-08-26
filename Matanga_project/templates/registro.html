@@ -2,15 +2,11 @@
 
 
 {% block content %}
-        <!--Esto es un comentario-->
     
-
     <div src="static 'help_btn.png'"></div>    
 
-    
     <br><br><br><br><br><br><br>
     <div style="text-align:center">
-
         <style>
             .mb-3 input {
                 font-size: 100%;
@@ -21,38 +17,60 @@
             }
         </style>
 
-
-    
+    <form method="POST" action="">
+        {% csrf_token %}
         <label for="formFile" class="form-label">Los campos con * son obligatorios</label>
         <div class="mb-3">
             <label class="form-label">*</label>
-            <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="USUARIO">
-          </div>
+            {{form.username}}<!--Estos form funcionan como input-->
+            <!--<input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="USUARIO">-->
+        </div>
         <br>
-          <div class="mb-3">
+        <div class="mb-3">
             <label class="form-label">*</label>
-            <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="EMAIL">
-          </div>
-          <br>
-          <div class="mb-3">
+            {{form.email}}
+            <!--<input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="EMAIL">-->
+        </div>
+        <br>
+        <div class="mb-3">
             <label style="color: #8b8f94;" class="form-label">..</label>
             <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="CEL">
-          </div>
-          <br>
-          <div class="mb-3">
+        </div>
+        <br>
+        <div class="mb-3">
             <label class="form-label">*</label>
-            <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="CLAVE">
-          </div>
-          <br>
-          <div class="mb-3">
+            {{form.password1}}
+            <!--<input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="CLAVE">-->
+        </div>
+        <br>
+        <div class="mb-3">
             <label class="form-label">*</label>
-            <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="REPETIR CLAVE">
-          </div>
-          
-          <br>
-          <button style="font-size: large;" type="button" class="btn btn-danger">CONFIRMAR</button>
+            {{form.password2}}
+            <!--<input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="REPETIR CLAVE">-->
+        </div>
+        
+        <br>
+        <input style="font-size: large;" type="submit" name="Create" class="btn btn-danger" value="CONFIRMAR">
     </div>
+    </form>
     <br><br><br><br><br><br>
 
-
+    <!--Este script se encarga de definir los placeholder de los input-->
+    <script>
+        var form_fields = document.getElementsByTagName('input')
+        form_fields[1].placeholder="USUARIO";
+        form_fields[1].style="text-align:center";
+        form_fields[2].placeholder="EMAIL";
+        form_fields[2].style="text-align:center";
+        form_fields[3].placeholder="CEL";
+        form_fields[3].style="text-align:center";
+        form_fields[4].placeholder="CLAVE";
+        form_fields[4].style="text-align:center";
+        form_fields[5].placeholder="REPETIR CLAVE";
+        form_fields[5].style="text-align:center";
+    
+        for (var field in form_fields){
+            form_fields[field].className += ' form-control'
+        }
+    </script>
 {% endblock %}
