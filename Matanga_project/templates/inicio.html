@@ -2,25 +2,25 @@
 
 
 {% block content %}
-        <!--Esto es un comentario-->
+{% load static %}
         
         <td height="380" colspan="3" valign="middle" class="bb">
 
         </td>
         <td height="380" colspan="3" valign="middle" class="bb">
-            <audio src="../Fondo.mp3" id="miAudio"></audio>
+            <audio src="{% static 'Fondo.mp3' %}" id="miAudio"></audio>
         </td>
 
         <script>
             document.getElementById("miAudio").play();
         </script>
 
-    <div src="static 'help_btn.png'"></div> 
+    <div src="{% static 'help_btn.png' %}"></div> 
     
     
     <br><br><br>
     <div style="text-align:center">
-        <img src="../static/Logo.png" width="524" height="348" />
+        <img src="{% static 'Logo.png' %}" width="524" height="348" />
 
         <h1 style="text-align:center" class= 'text-center' >MATANGA</h1> 
 
@@ -49,6 +49,8 @@
           </div>
           <br>
           <button type="button" class="btn btn-danger">Ingresar</button>
+          <br><br>
+          <button type="button" class="btn btn-danger">Registrarse</button>
           <br><br>
           <button type="button" class="btn btn-link">Recuperar contraseña</button>
 
