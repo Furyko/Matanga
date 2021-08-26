@@ -1,7 +1,6 @@
 import psycopg2
 import xlrd
 
-from Creacion_db import *
 import pandas as pd
 
 
@@ -28,7 +27,7 @@ class Principal():
         #Conectando
         conn = psycopg2.connect(
             host = 'localhost',
-            database = 'instanciaMarzo',
+            database = 'matanga',
             port = 5432,
             user = 'postgres',
             password = 'postgres'
@@ -337,24 +336,23 @@ class Main_Ejercicios():
 
 
 
+
+
+
     def llenar_tabla_ejercicios(nombre_tabla, tabla_foranea):
         #Conectando
         conn = psycopg2.connect(
             host = 'localhost',
-            database = 'instanciaMarzo',
+            database = 'matanga',
             port = 5432,
             user = 'postgres',
             password = 'postgres'
         )
 
-
         conn.autocommit = True  
 
         #Cursor
         cursor = conn.cursor()
-
-
-
 
         #Conocer cuantos encfabezados hay
         cursor.execute(f"SELECT column_name FROM information_schema.columns WHERE table_schema = 'public' AND table_name = '{nombre_tabla}'")
@@ -1331,4 +1329,185 @@ class Main_Datos():
 #Main_Datos.agregar_datos_soluciones_3ro('estudiantes_soluciones_previa_3ro', 'ejer_previas_marzo2021_tecno')
 
 
-Main_Datos.agregar_datos_soluciones_3ro('estudiantes_soluciones_3ro_2da', 'ejer_real_3ro_2da', 'estudiantes_correcciones_3ro_2da')
+#Main_Datos.agregar_datos_soluciones_3ro('estudiantes_soluciones_3ro_2da', 'ejer_real_3ro_2da', 'estudiantes_correcciones_3ro_2da')
+
+
+class Main_Campos(): 
+
+    def llenar_campos(nombre_tabla, tabla_foranea):
+
+        #Conectando
+        conn = psycopg2.connect(
+            host = 'localhost',
+            database = 'matanga',
+            port = 5432,
+            user = 'postgres',
+            password = 'postgres'
+        )
+
+
+        conn.autocommit = True  
+
+        #Cursor
+        cursor = conn.cursor()
+
+
+
+
+        #Conocer cuantos encabezados hay
+        cursor.execute(f"SELECT column_name FROM information_schema.columns WHERE table_schema = 'public' AND table_name = '{nombre_tabla}'")
+        temporal = cursor.fetchall()
+        
+        headers = [] #Haremos una lista pulida de encabezados
+        for i in range(len(temporal)-1): #No se tomará el valor [0] SI USAS ID PK AUTOCOPMLETADO POR ESO EL -1 (AJUSTAR)
+            headers.append(temporal[i+1][0])
+        headers= ", ".join(headers) #Unimos todo separando por comas y espacio para hacer desaparecer comillas internas 
+        
+        print(headers)
+        '''
+        #HEADERS LISTOS PARA USAR (CON ID AUTOCOMPLETADO - AJUSTAR QUITANDOLE EL -1 Y +1 SI NO HAY ID PK)
+    
+        estudiantes = 0
+
+        
+        #Conocer cantidad de registros(estudiantes) que hay en la tabla elegida
+        cursor.execute(f"SELECT COUNT(*) FROM {tabla_foranea}")
+        estudiantes = cursor.fetchall()[0][0] #Los [0][0] es para eliminar su tupla dentro de una lista así da solo el int
+        
+        
+        cursor.execute(f"SELECT * FROM {tabla_foranea}")
+        datos_estudiante = cursor.fetchall()
+        
+        
+        values = []
+        
+        
+        #Creando el objeto para operar la clase ejercicios del archivo Creacion_db
+        #ejercicios = Alerta_ejercicios()
+            
+        for cada_estudiante in range(estudiantes): #Se hara una tupla grande según sus atributos(columnas)
+            
+            #Agregando uno a uno los ejercicios
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+            
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False)
+            values.append(None)
+            values.append(None)
+
+            values.append(False) #Da igual porque en esta columna en este orden siempre es false
+            values.append(datos_estudiante[cada_estudiante][0])
+
+                        
+            
+            #Formatearemos la lista para la sintaxis SQL - 
+            
+            valores_SQL = []
+            #CUANDO SE LLENA VALORES EN SQL SIEMPRE LOS STR LLEVAN COMILLA, LOS INT NO!
+            for cada_dato in range(len(values)):
+                
+                if values[cada_dato] == None:
+                    valores_SQL.append("Null") #En join se le quitan las comillas e ira null al final para SQL
+                
+                        #COMO TENES BINARIOS MEJOR QUE TODO SEA STR - LUEGO LO PASAS A INT CUANDO HAGA FALTA OPERAR
+
+                else:
+                    valor = "'" + str(values[cada_dato]) + "'"   # ES NECESARIO SOBRECOMILLAR LOS STR 
+                    valores_SQL.append(valor) #En este caso ambos son str sí o sí para esta tabla (Ajustar en tablas distintas)
+
+            valores_SQL = ", ".join(valores_SQL) #CON ESTE JOIN DESAPARECERAN LAS COMILLAS DEL INT Y LA COMILLA EXTRA DEL STR
+
+           
+
+            #Listo para usarse en sentencia SQL
+
+            
+            #CARGANDO LA TABLA CON CADA REGISTRO A LA VEZ
+
+            cursor.execute(f"INSERT INTO {nombre_tabla} ({headers}) VALUES({valores_SQL})")
+
+            #Proceso finalizado
+            values = [] #Hay que reiniciar el valor inicial de valores para que no se sume valores sobre otros
+            print(f"Llenado de la tabla {nombre_tabla} terminado.")
+        '''
+
+
+Main_Campos.llenar_campos('quiz_pregunta','quiz_quiz')         

@@ -11,22 +11,31 @@ DIFICULTAD_RESPUESTAS = (
 )
 
 
+
+
 class Usuario(models.Model):
     nombre= models.CharField(max_length=50)
     email = models.CharField(max_length=80)
-    cel= models.ImageField(null=True)
     clave= models.CharField(max_length=100)
     admin = models.BooleanField(default=False)
-    
+    id_partida = models.ForeignKey('partida', models.DO_NOTHING, db_column='id_partida', blank=True, null=True)
+
+
+
+class Partida (models.Model):
+    puntaje_maximo= models.IntegerField(null=True)
+    puntaje_juego= models.IntegerField(null=True)
+    dificultad = models.CharField(max_length=20, default="normal")
+    id_categoria = models.ForeignKey('categoria', models.DO_NOTHING, db_column='id_categoria', blank=True, null=True)
+
 
 
 # Create your models here.
-class Quiz(models.Model):
-    nombre = models.CharField(max_length=200)
+class Categoria(models.Model):
+    Categoria = models.CharField(max_length=50)
     topico = models.CharField(max_length=200)
-    cantidad_de_preguntas = models.IntegerField()
-    tiempo = models.IntegerField(help_text="Duracion del quiz en minutos")
-    dificultad = models.CharField(max_length=10, choices=DIFICULTAD_RESPUESTAS)
+    id_pregunta = models.ForeignKey('pregunta', models.DO_NOTHING, db_column='id_pregunta', blank=True, null=True)
+    
 
     def __str__(self):
         return f"{self.nombre}-{self.topico}"
@@ -37,10 +46,12 @@ class Quiz(models.Model):
     class Meta:
         verbose_name_plural = 'Quizes'
 
+
+
+
 class Pregunta(models.Model):
     texto_pregunta = models.CharField(max_length=200)
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
-    fecha = models.DateTimeField(auto_now_add=True)
+    id_respuesta = models.ForeignKey('respuesta', models.DO_NOTHING, db_column='id_respuesta', blank=True, null=True)
 
     def obtener_respuestas(self):
         return self.definir_respuesta.all()
@@ -48,23 +59,14 @@ class Pregunta(models.Model):
     def __str__(self):
         return str(self.texto_pregunta)
 
-    
+
+
 
 class Respuesta(models.Model):
     texto_respuesta = models.CharField(max_length=200)
     opcion_correcta = models.BooleanField(default=False)
-    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
-    fecha = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"pregunta: {self.pregunta.texto_pregunta}, respuesta: {self.texto_respuesta}, correcta: {self.opcion_correcta}"
 
-
-class Resultado(models.Model):
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    puntaje = models.FloatField()
-
-    def __str__(self):
-        return str(self.pk)
 
