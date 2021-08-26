@@ -33,11 +33,6 @@
         </div>
         <br>
         <div class="mb-3">
-            <label style="color: #8b8f94;" class="form-label">..</label>
-            <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="CEL">
-        </div>
-        <br>
-        <div class="mb-3">
             <label class="form-label">*</label>
             {{form.password1}}
             <!--<input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="CLAVE">-->
@@ -62,12 +57,10 @@
         form_fields[1].style="text-align:center";
         form_fields[2].placeholder="EMAIL";
         form_fields[2].style="text-align:center";
-        form_fields[3].placeholder="CEL";
+        form_fields[3].placeholder="CLAVE";
         form_fields[3].style="text-align:center";
-        form_fields[4].placeholder="CLAVE";
+        form_fields[4].placeholder="REPETIR CLAVE";
         form_fields[4].style="text-align:center";
-        form_fields[5].placeholder="REPETIR CLAVE";
-        form_fields[5].style="text-align:center";
     
         for (var field in form_fields){
             form_fields[field].className += ' form-control'
