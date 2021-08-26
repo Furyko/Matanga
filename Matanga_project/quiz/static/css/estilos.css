@@ -1,7 +1,6 @@
 body {
     background: #9c9c9c;
 }
-
 .mapa {
     background: #d6d6d6;
     margin: 30px;
@@ -10,7 +9,6 @@ body {
     float: left;
     text-align: center;
 }
-
 .juego {
     background: #d6d6d6;
     height: 500px;
@@ -25,7 +23,6 @@ body {
     font-weight: 500;
     color: black;
 }
-
 .victoria {
     background: #d6d6d6;
     height: 100px;
@@ -40,7 +37,6 @@ body {
     font-weight: 500;
     color: black;
 }
-
 .start_btn{
     position: absolute;
     top: 70%;

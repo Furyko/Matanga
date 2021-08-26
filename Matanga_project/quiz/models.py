@@ -30,7 +30,7 @@ class Partida (models.Model):
 
 
 
-# Create your models here.
+
 class Categoria(models.Model):
     Categoria = models.CharField(max_length=50)
     topico = models.CharField(max_length=200)
