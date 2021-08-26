@@ -34,6 +34,9 @@ class Quiz(models.Model):
     def obtener_preguntas(self):
         return self.definir_pregunta.all()
 
+    class Meta:
+        verbose_name_plural = 'Quizes'
+
 class Pregunta(models.Model):
     texto_pregunta = models.CharField(max_length=200)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
