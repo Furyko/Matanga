@@ -3,30 +3,7 @@
 
 {% block content %}
 {% load static %}
-        
-        <td height="380" colspan="3" valign="middle" class="bb">
-
-        </td>
-        <td height="380" colspan="3" valign="middle" class="bb">
-            <audio src="{% static 'Fondo.mp3' %}" id="miAudio"></audio>
-        </td>
-
-        <script>
-            document.getElementById("miAudio").play();
-        </script>
-
-    <div src="{% static 'help_btn.png' %}"></div> 
-    
-    
-    <br><br><br>
-    <div style="text-align:center">
-        <img src="{% static 'Logo.png' %}" width="524" height="348" />
-
-        <h1 style="text-align:center" class= 'text-center' >MATANGA</h1> 
-
-    </div>
-<div style="text-align:center">
-
+<head>
     <style>
         .mb-3 input {
             font-size: 100%;
@@ -36,28 +13,54 @@
             background-image: url(../static/Logo.png);
         }
     </style>
-    <form>
-      
-        <div  class="mb-3">  
-            <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="USUARIO">
+    <td height="380" colspan="3" valign="middle" class="bb">
+    </td>
+
+    <td height="380" colspan="3" valign="middle" class="bb">
+        <audio src="{% static 'Fondo.mp3' %}" id="miAudio"></audio>
+    </td>
+
+    <script>
+        document.getElementById("miAudio").play();
+    </script>
+
+    <div src="{% static 'help_btn.png' %}"></div> 
+    
+    <br><br><br>
+    <div style="text-align:center">
+        <img src="{% static 'Logo.png' %}" width="524" height="348" />
+        <h1 style="text-align:center" class='text-center'>MATANGA</h1> 
+    </div>
+</head>
+
+<div style="text-align:center">
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div  class="mb-3">
+            <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" name="username" placeholder="USUARIO">
         </div>
         <br>
         <div class="mb-3">
-            <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="CLAVE">
+            <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" name="password" placeholder="CLAVE">
         </div>
         <br>
-        <button type="button" class="btn btn-danger">Ingresar</button>
+        <input type="submit" class="btn btn-danger" value="Ingresar">
         <br><br>
-        <button type="button" class="btn btn-danger">Registrarse</button>
-        <br><br>
-        <button type="button" class="btn btn-link">Recuperar contraseña</button>
-
+      </form>
+      {% for message in messages %}
+        <p id="messages">{{message}}</p>
+      {% endfor %}
+      <form action="{% url 'registro' %}">
+        <input type="submit" class="btn btn-danger" value="Registrarse">
+      </form>
+      <br>
+      <form action="{% url 'recuperar' %}">
+        <input type="submit" class="btn btn-danger" value="Recuperar contraseña">
       </form>
       
-    </div>
-    <br>
-
-    <br><br><br><br><br><br>
+</div>
+<br>
+<br><br><br><br><br><br>
 
 
 {% endblock %}

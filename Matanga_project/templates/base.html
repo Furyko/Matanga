@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
         <meta charset="UTF-8">
         <title>Matanga Game Quiz</title>
         {% load static %}
         <link href="{% static 'css/estilos.css' %}" rel="stylesheet" type="text/css">
-        <link rel="icon" href="{% static 'favicon.ico' %}">      
+        <link rel="icon" href="{% static 'favicon.ico' %}">
         
         <div style="text-align:center">
             <audio controls loop id="miaudio">
@@ -37,7 +36,7 @@
         </div>
 
         <div class="info_box">
-            <div class="info_title"><span>¡Buenas, {nombre del usuario}!</span></div> <!--Aquí hay que hacer que muestre el nombre del usuario-->
+            <div class="info_title"><span>¡Buenas, {{request.user}}!</span></div> <!--Aquí hay que hacer que muestre el nombre del usuario-->
             <div class="info_list">
                 <div class="info"><span>Te daré una breve introducción:</span></div>
                 <div class="info">En el mapa del Chaco, tendrás que seleccionar un departamento y responder todas las preguntas de ese departamento.</div>
@@ -48,6 +47,13 @@
             </div>
             <div class="ok_rules_btn"><button onclick="hide_info_box()">OK</button></div>
         </div>
+
+        <!--<div class="options_box">
+            <div class="logout_btn">
+                <span>Hello, {{request.user}}.</span>
+                <span><a href="{% url 'cerrarSesion' %}">Cerrar Sesión</a></span>
+            </div>
+        </div>-->
 
         <!--Help button-->
         <script>
