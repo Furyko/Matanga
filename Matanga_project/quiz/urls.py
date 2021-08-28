@@ -12,4 +12,5 @@ urlpatterns = [
     path('registro/', views.registro, name='registro'),
     path('victoria/', views.victoria, name='victoria'),
     path('', views.inicio, name='inicio'),
+    path('cerarSesion/', views.cerrarSesion, name="cerrarSesion"),
 ]

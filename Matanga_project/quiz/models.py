@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.fields import DateField, DateTimeField, IntegerField
+from django.db.models.fields import CharField, DateField, DateTimeField, IntegerField
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -39,20 +39,28 @@ class Partida(models.Model):
 
 class Categoria(models.Model):
     categoria= models.CharField(max_length=100, blank=True, null=True)
-    id_quiz = models.ForeignKey('quiz', models.DO_NOTHING, db_column='id_quiz', blank=True, null=True)
+    
 
 
 class Quiz(models.Model):
-    #categoria_preg = models.CharField(max_length=100, blank=True, null=True)
-    pregunta = models.CharField(max_length=200, blank=True, null=True)
+    id_categoria = models.ForeignKey('categoria', models.DO_NOTHING, db_column='id_categoria', blank=True, null=True)
+    pregunta = models.CharField(max_length=250, blank=True, null=True)
     respuesta_1 = models.CharField(max_length=200, blank=True, null=True)
+    correcto_1= models.BooleanField(default=False)
     respuesta_2 = models.CharField(max_length=200, blank=True, null=True)
+    correcto_2= models.BooleanField(default=False)
     respuesta_3 = models.CharField(max_length=200, blank=True, null=True)
+    correcto_3= models.BooleanField(default=False)
     respuesta_4 = models.CharField(max_length=200, blank=True, null=True)
+    correcto_4= models.BooleanField(default=False)
     respuesta_5 = models.CharField(max_length=200, blank=True, null=True)
-    correcta = models.IntegerField(default=1, blank=True, null=True)
+    correcto_5= models.BooleanField(default=False)
 
 class Dificultad(models.Model):
-    vida = IntegerField()
-    tiempo= IntegerField()
+    informacion = CharField(max_length=20, blank=True, null=True)
+    vida = IntegerField(blank=True, null=True)
+    tiempo= IntegerField(blank=True, null=True)
+    
+    
+    
 

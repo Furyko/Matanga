@@ -2,11 +2,8 @@
 
 
 {% block content %}
-    
-    <div src="static 'help_btn.png'"></div>    
-
+<head>
     <br><br><br><br><br><br><br>
-    <div style="text-align:center">
         <style>
             .mb-3 input {
                 font-size: 100%;
@@ -16,7 +13,9 @@
                 background-image: url(../static/Logo.png);
             }
         </style>
-
+</head>
+<body>
+    <div style="text-align:center">
     <form method="POST" action="">
         {% csrf_token %}
         <label for="formFile" class="form-label">Los campos con * son obligatorios</label>
@@ -46,9 +45,14 @@
         
         <br>
         <input style="font-size: large;" type="submit" name="Create" class="btn btn-danger" value="CONFIRMAR">
-    </div>
+    </form>
+    {{form.errors}}
+    <form action="{% url 'inicio' %}">
+        <br>
+        <input style="font-size: large;" type="submit" class="btn btn-danger" value="Iniciar sesión">
     </form>
     <br><br><br><br><br><br>
+</body>
 
     <!--Este script se encarga de definir los placeholder de los input-->
     <script>
