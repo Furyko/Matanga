@@ -2,47 +2,49 @@
 
 
 {% block content %}
-        <!--Esto es un comentario-->
-    
-    <div src="static 'help_btn.png'"></div>    
+    <!--Esto es un comentario-->
 
-    <div id="cronometro">
-        
+    <div src="static 'help_btn.png'"></div>
 
-      </div>
     <br><br><br><br><br><br><br>
     <div class= "juego">
+      <header>
         <label for="formFile" class="form-label">CATEGORÍA</label>
-        <div id="reloj">
-            10 00 seg
-          </div>
-        <label for="formFile" class="form-label">Pregunta</label>
-        <br><br><br><br><br><br><br>
-        <div class="mb-3">
-            
-            <label class="form-label">A) </label>
-            <button type="button" class="btn btn-light"> RESPUESTA 1 </button>
-            
-          </div>
+        <div class="reloj">
+          <div class="reloj-texto">Tiempo restante</div>
+          <div class="reloj-tiempo">30</div>
+        </div>
+      </header>
+      <section>
         <br>
-          <div class="mb-3">
+        <div class="pregunta">
+          <label for="formFile" class="form-label">Pregunta</label>
+        </div>
+        <br>
+        <div class="opciones">
+          <div class="opcion">
+              <label class="form-label">A) </label>
+              <button type="button" class="btn btn-light"> RESPUESTA 1 </button>
+          </div>
+          <br>
+          <div class="opcion">
             <label class="form-label">B) </label>
             <button type="button" class="btn btn-light"> RESPUESTA 2 </button>
           </div>
           <br>
-          <div class="mb-3">
+          <div class="opcion">
             <label class="form-label">C) </label>
             <button type="button" class="btn btn-light"> RESPUESTA 3 </button>
           </div>
           <br>
-
-          
-          <br>
-
-    </div>
-        
+        </div>
+      </section>
+        <br><br>
     </div>
     <br><br><br><br><br><br>
+    
+    <script>
+    </script>
 
 
 {% endblock %}

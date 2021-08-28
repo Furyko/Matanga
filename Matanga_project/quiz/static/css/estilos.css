@@ -122,14 +122,58 @@ body {
     background: white;
     color: black;
 }
-/*.options_box{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 540px;
+.juego header {
+    height: 80px;
+    padding: 0 30px;
     background: #fff;
-    border-radius: 5px;
-    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 5px 5px 0;
 }
-*/
+.juego header .reloj {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 145px;
+    height: 60px;
+    background: #d6d6d6;
+    border: 1px solid #9c9c9c;
+    border-radius: 5px;
+    padding: 0 10px;
+}
+.juego header .reloj .reloj-texto {
+    font-weight: 400;
+    font-size: 22px;
+    user-select: none;
+}
+.juego header .reloj .reloj-tiempo {
+    font-size: 30px;
+    user-select: none;
+    background: #686868;
+    color: #fff;
+    width: 50px;
+    height: 50;
+    text-align: center;
+    border-radius: 5px;
+}
+.juego section .opciones {
+    padding: 20px 0;
+    display: block;
+}
+.juego section .pregunta {
+    padding: 15px 0;
+    border: 2px solid #686868;
+    border-radius: 5px;
+    display: block;
+}
+.juego section .opciones .opcion{
+    background: #686868;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 2px;
+    cursor: pointer;
+}
+.juego section .opciones .opcion:hover{
+    background: #414141;
+}
