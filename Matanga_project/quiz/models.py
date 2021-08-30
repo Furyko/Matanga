@@ -60,6 +60,7 @@ class Dificultad(models.Model):
     informacion = CharField(max_length=20, blank=True, null=True)
     vida = IntegerField(blank=True, null=True)
     tiempo= IntegerField(blank=True, null=True)
+    cant_respuestas = IntegerField(blank=True, null=True)
     
     
     

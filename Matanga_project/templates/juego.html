@@ -12,37 +12,45 @@
       </div>
     <br><br><br><br><br><br><br>
     <div class= "juego">
-        <label for="formFile" class="form-label">CATEGORÍA</label>
+        <label for="formFile" class="form-label">CATEGORÍA: {{categoria}}</label>
+        <br>
+        
         <div id="reloj">
-            10 00 seg
-          </div>
-        <label for="formFile" class="form-label">Pregunta</label>
-        <br><br><br><br><br><br><br>
-        <div class="mb-3">
-            
-            <label class="form-label">A) </label>
-            <button type="button" class="btn btn-light"> RESPUESTA 1 </button>
-            
+            Te quedan: 10 00 seg
           </div>
         <br>
-          <div class="mb-3">
-            <label class="form-label">B) </label>
-            <button type="button" class="btn btn-light"> RESPUESTA 2 </button>
+        <label for="formFile" class="form-label"> <h4> ¡Respondé rápido! </h4></label>
+        <h3>{{pregunta}}</h3> 
+        pregunta_id : {{pregunta_id}} 
+        Cantidad preguntas: {{cantidad_respuestas}}
+
+
+
+<br><br>  
+
+          <br>
+          <table class="table">
+            {% for key,value in respuestas.items %}
+            <tbody>
+              <tr>
+                <td><input type="checkbox" value=""></td>
+                <td>{{value.0}}</td>
+                <td style="text-align: left;">{{value.1}}</td>
+                <td>&nbsp &nbsp &nbsp &nbspadmin: {{value.2}}</td>
+              </tr>
+            </tbody>
+            {% endfor %}
           </div>
           <br>
-          <div class="mb-3">
-            <label class="form-label">C) </label>
-            <button type="button" class="btn btn-light"> RESPUESTA 3 </button>
-          </div>
+            
+          </table>
           <br>
-
-          
           <br>
+          <br>
+          <button style="font-size: large;" type="submit" class="btn btn-light"> ¡Estoy seguro! </button>
 
     </div>
-        
-    </div>
-    <br><br><br><br><br><br>
 
+  
 
 {% endblock %}

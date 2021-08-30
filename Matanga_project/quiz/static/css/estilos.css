@@ -1,8 +1,8 @@
 body {
-    background: #9c9c9c;
+    background: #666666;
 }
 .mapa {
-    background: #d6d6d6;
+    background: #afafaf;
     margin: 30px;
     padding: 30px;
     border: 5px solid black;
@@ -10,8 +10,8 @@ body {
     text-align: center;
 }
 .juego {
-    background: #d6d6d6;
-    height: 500px;
+    background: #c2c2c2;
+    height: 700px;
     margin: 30px;
     padding: 30px;
     border: 5px solid black;
@@ -23,6 +23,16 @@ body {
     font-weight: 500;
     color: black;
 }
+
+
+table {
+    text-align: center;
+    font-size: 30px;
+    position: relative;
+    left: 500px;
+}
+
+
 .victoria {
     background: #d6d6d6;
     height: 100px;
