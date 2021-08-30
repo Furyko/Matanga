@@ -2,28 +2,26 @@
 
 
 {% block content %}
-        <!--Esto es un comentario-->
-    
+<div src="static 'help_btn.png'"></div>    
 
-    <div src="static 'help_btn.png'"></div>    
 
-    
-    <br><br><br><br><br><br><br>
-    <div style="text-align:center">
-        
-        <div class= "victoria">
-            <br>
-            <label for="formFile" class="form-label">¡GANASTE!</label>
-        </div>
+<br><br><br><br><br><br><br>
+<div style="text-align:center">
+
+    <div class= "victoria">
+        <br>
+        <label for="formFile" class="form-label">¡GANASTE!</label>
+    </div>
         <label style="font-size: larger;" for="">PUNTAJE: </label>
-        </div>
     </div>
-    <br><br>
-    <div style="text-align: center;">
-    <button style="font-size: large" type="button" class="btn btn-danger">RANKING</button>
-
-    </div>
-    <br><br><br><br>
+</div>
+<br><br>
+<div style="text-align: center;">
+    <form action="{% url 'ranking' %}">
+        <input style="font-size: large" type="submit" class="btn-danger" value="RANKING">
+    </form>
+</div>
+<br><br><br><br>
 
 
 {% endblock %}

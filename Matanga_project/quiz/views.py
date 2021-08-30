@@ -199,5 +199,3 @@ def victoria(request):
     #return HttpResponse("You're at the quiz index.")
     template = loader.get_template('victoria.html')
     return HttpResponse(template.render({}, request)) 
-
-
