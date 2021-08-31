@@ -100,7 +100,7 @@
             const options_box = document.querySelector(".options_box")
 
             function hide_info_box(){
-                if (info_box.style.display == "none") {
+                if (info_box.style.display !== "inline") {
                     info_box.style.display = "inline"
                 }
                 else {
@@ -109,7 +109,7 @@
             }
 
             function hide_options_box(){
-                if (options_box.style.display == "none") {
+                if (options_box.style.display !== "inline") {
                     options_box.style.display = "inline"
                 }
                 else {
