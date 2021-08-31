@@ -17,6 +17,9 @@ class Usuario(models.Model):
     clave= models.CharField(max_length=100)
     admin = models.BooleanField(default=False)
 
+    def __str__(self):
+        return str(self.nombre)
+
 
 class Date(models.Model):
     date = DateTimeField (auto_now=True)
@@ -38,7 +41,7 @@ class Partida(models.Model):
    
 
 class Categoria(models.Model):
-    categoria= models.CharField(max_length=100, blank=True, null=True)
+    categoria = models.CharField(max_length=100, blank=True, null=True)
     
 
 
@@ -55,6 +58,10 @@ class Quiz(models.Model):
     correcto_4= models.BooleanField(default=False)
     respuesta_5 = models.CharField(max_length=200, blank=True, null=True)
     correcto_5= models.BooleanField(default=False)
+
+    def __str__(self):
+            return str(self.pregunta)
+
 
 class Dificultad(models.Model):
     informacion = CharField(max_length=20, blank=True, null=True)

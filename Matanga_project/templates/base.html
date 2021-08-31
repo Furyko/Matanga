@@ -60,9 +60,13 @@
         <div class="help_btn">
             <button onclick="hide_info_box()"><img src="{% static 'help_btn.png' %}" width="50" height="50"></button>
         </div>
+        {% url 'inicio' as inicio_url %}
+        {% url 'registro' as registro_url %}
+        {% if request.get_full_path != inicio_url and request.get_full_path != registro_url %}
         <div class="options_btn">
             <button onclick="hide_options_box()"><img src="{% static 'options_btn.png' %}" width="50" height="50"></button>
         </div>
+        {% endif %}
 
         <div class="info_box">
             <div class="info_title"><span>¡Buenas, {{request.user}}!</span></div> <!--Aquí hay que hacer que muestre el nombre del usuario-->

@@ -2,78 +2,104 @@
 
 
 {% block content %}
-        <!--Esto es un comentario-->
-    
 
-    <div src="static 'help_btn.png'"></div>    
-
-    
-    <br><br><br><br><br><br><br>
-    <div style="text-align:center">
-
-
-        <div style="text-align:center">
-
-            <style>
-                .mb-3 input {
-                    font-size: 100%;
-                    width: 400px;
-                    height: 40px;
-                    background-color: rgb(201, 201, 201);
-                    background-image: url(../static/Logo.png);
-                }
-            </style>
-    
-            <div class="mb-3">
-        
-            <label for="formFile" class="form-label">Los campos con * son obligatorios</label>
-           
-                <br>
-                <select style="font-size: 100%; width: 400px; height: 40px" name="instancia">
-                    <option style="text-align:center" disabled selected=""> CATEGORÍA </option>
-   
-                    <option value="Ciclo normal">CULTURA Y ARTE</option> 
-                    <option value="Diciembre">HISTORIA</option> 
-                    <option value="Marzo">DEPORTE</option>
-                    <option value="Mesa extraordinaria">GEOGRAFÍA</option> 
-                    <option value="Mesa extraordinaria">ECONOMÍA</option> 
-                    <option value="Mesa extraordinaria">CIENCIA Y EDUCACIÓN</option> 
-                    <option value="Mesa extraordinaria">ENTRETENIMIENTO</option> 
-                </select>
-                <br>
-                <br>
-                <label class="form-label">*</label>
-                <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="PREGUNTA">
-              </div>
-            <br>
-              <div class="mb-3">
-                <label class="form-label">*</label>
-                <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="RESPUESTA CORRECTA">
-              </div>
-              <br>
-              <div class="mb-3">
-                <label  class="form-label">*</label>
-                <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="INCORRECTO">
-              </div>
-              <br>
-              <div class="mb-3">
-                <label class="form-label">*</label>
-                <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="INCORRECTO">
-              </div>
-              <br>
-              <div class="mb-3">
-                <label class="form-label">*</label>
-                <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" placeholder="INCORRECTO">
-              </div>
-              
-              <br>
-              <button style="font-size: large;" type="button" class="btn btn-danger">CONFIRMAR</button>
-              <br>
-              <br>
-              <button style="font-size: large;" type="button" class="btn btn-danger">JUGAR</button>
-        </div>
+<head>
+  <style>
+    .opcion .form-control {
+      font-size: 100%;
+      width: 400px;
+      height: 40px;
+      background-color: rgb(201, 201, 201);
+      background-image: url(../static/Logo.png);
+    }
+    .opcion .form-checkbox {
+      font-size: 100%;
+      width: 30px;
+      height: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div src="static 'help_btn.png'"></div>
+  <br><br><br><br><br><br>
+  <div style="text-align:center">
+    <form method="POST" action="" id="checkGroup">
+    {% csrf_token %}
+    <div class="opcion">
+      <label for="formFile" class="form-label">Los campos con * son obligatorios</label>
+      <br>
+      <select style="font-size: 100%; width: 400px; height: 40px" name="categoria" required>
+        <option style="text-align:center" disabled selected=""> CATEGORÍA </option>
+        <option value="1">CULTURA Y ARTE</option> 
+        <option value="2">HISTORIA</option> 
+        <option value="3">DEPORTE</option>
+        <option value="4">GEOGRAFÍA</option> 
+        <option value="5">ECONOMÍA</option> 
+        <option value="6">CIENCIA Y EDUCACIÓN</option> 
+        <option value="7">ENTRETENIMIENTO</option> 
+      </select>
+      <br>
+      <br>
     </div>
-    <br><br><br><br><br><br>
-
+    <div class="opcion">
+        <label class="form-label">*</label>
+        <input type="text" style="text-align:center" name="pregunta" id="disabledTextInput" class="form-control" placeholder="PREGUNTA" required>
+    </div>
+    <br>
+    <div class="opcion">
+      <label class="form-label">*</label>
+      <input type="text" style="text-align:center" name="respuesta1" id="disabledTextInput" class="form-control" placeholder="Respuesta 1" required>
+      <label class="correcta">Es correcta: </label>
+      <input type="checkbox" name="es_correcta_1" class="form-checkbox">
+    </div>
+    <br>
+    <div class="opcion">
+      <label  class="form-label">*</label>
+      <input type="text" style="text-align:center" name="respuesta2" id="disabledTextInput" class="form-control" placeholder="Respuesta 2" required>
+      <label class="correcta">Es correcta: </label>
+      <input type="checkbox" name="es_correcta_2" class="form-checkbox">
+    </div>
+    <br>
+    <div class="opcion">
+      <label class="form-label">*</label>
+      <input type="text" style="text-align:center" name="respuesta3" id="disabledTextInput" class="form-control" placeholder="Respuesta 3" required>
+      <label class="correcta">Es correcta: </label>
+      <input type="checkbox" name="es_correcta_3" class="form-checkbox">
+    </div>
+    <br>
+    <div class="opcion">
+      <label class="form-label">*</label>
+      <input type="text" style="text-align:center" name="respuesta4" id="disabledTextInput" class="form-control" placeholder="Respuesta 4" required>
+      <label class="correcta">Es correcta: </label>
+      <input type="checkbox" name="es_correcta_4" class="form-checkbox">
+    </div>
+    <br>
+    <div class="opcion">
+      <label class="form-label">*</label>
+      <input type="text" style="text-align:center" name="respuesta5" id="disabledTextInput" class="form-control" placeholder="Respuesta 5" required>
+      <label class="correcta">Es correcta: </label>
+      <input type="checkbox" name="es_correcta_5" class="form-checkbox">
+    </div>
+    <br>
+    <input style="font-size: large;" type="submit" name="btn_confirmar" class="btn btn-danger" value="CONFIRMAR">
+    <br>
+    <br>
+  </form>
+  <input style="font-size: large;" type="submit" class="btn btn-danger" value="JUGAR">
+  </div>
+<br><br><br><br><br><br>
+<script>
+$('#checkGroup').submit(function(e){
+    e.preventDefault();
+    var ck_box = $('input[type="checkbox"]:checked').length;
+    
+    if(ck_box === 0){
+      alert("Debes marcar al menos una respuesta como correcta.");
+    } else {
+      document.getElementById('checkGroup').submit();
+    }
+});
+</script>
+</body>
 
 {% endblock %}

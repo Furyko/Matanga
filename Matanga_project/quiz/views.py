@@ -7,16 +7,13 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.forms import UserCreationForm
+from django.db.models import Max
 from .forms import FormCrearUsuario
 
 from .models import *
 import random
 
 def registro(request):
-    #return HttpResponse("You're at the quiz index.")
-    template = loader.get_template('registro.html')
-    return HttpResponse(template.render({}, request))
-   
     if request.user.is_authenticated:
         return redirect('mapa')
     else:
@@ -33,10 +30,6 @@ def registro(request):
         
 
 def inicio(request):
-    #return HttpResponse("You're at the quiz index.")
-    template = loader.get_template('inicio.html')
-    return HttpResponse(template.render({}, request))
-    
     if request.user.is_authenticated:
         return redirect('mapa')
     else:
@@ -58,19 +51,77 @@ def inicio(request):
     
 
 def cerrarSesion(request):
-    #logout(request)
+    logout(request)
     return redirect('inicio')
 
 def recuperar(request):
-    #return HttpResponse("You're at the quiz index.")
     template = loader.get_template('recuperar.html')
     return HttpResponse(template.render({}, request))
 
 @login_required(login_url='inicio')
 def admin(request):
-    #return HttpResponse("You're at the quiz index.")
-    template = loader.get_template('admin.html')
-    return HttpResponse(template.render({}, request))
+    if request.user.is_authenticated:
+        if not request.user.is_superuser:
+            return redirect('mapa')
+    if request.method == "POST":
+        categoria = request.POST.get('categoria')
+        pregunta = request.POST.get('pregunta')
+        respuesta1 = request.POST.get('respuesta1')
+        es_correcta_1 = request.POST.get('es_correcta_1')
+        respuesta2 = request.POST.get('respuesta2')
+        es_correcta_2 = request.POST.get('es_correcta_2')
+        respuesta3 = request.POST.get('respuesta3')
+        es_correcta_3 = request.POST.get('es_correcta_3')
+        respuesta4 = request.POST.get('respuesta4')
+        es_correcta_4 = request.POST.get('es_correcta_4')
+        respuesta5 = request.POST.get('respuesta5')
+        es_correcta_5 = request.POST.get('es_correcta_5')
+
+        # Reconocer qué casillas están marcadas como respuestas corectas y convertirlas en booleanos:
+        if es_correcta_1 != None:
+            es_correcta_1 = True
+        else: 
+            es_correcta_1 = False
+
+        if es_correcta_2 != None:
+            es_correcta_2 = True
+        else: 
+            es_correcta_2 = False
+
+        if es_correcta_3 != None:
+            es_correcta_3 = True
+        else: 
+            es_correcta_3 = False
+
+        if es_correcta_4 != None:
+            es_correcta_4 = True
+        else: 
+            es_correcta_4 = False
+
+        if es_correcta_5 != None:
+            es_correcta_5 = True
+        else: 
+            es_correcta_5 = False
+
+        print("Categoria:", categoria)
+        print("Pregunta:", pregunta)
+        print(f"Respuesta 1: {respuesta1}. Es correcta: {es_correcta_1}")
+        print(f"Respuesta 2: {respuesta2}. Es correcta: {es_correcta_2}")
+        print(f"Respuesta 3: {respuesta3}. Es correcta: {es_correcta_3}")
+        print(f"Respuesta 4: {respuesta4}. Es correcta: {es_correcta_4}")
+        print(f"Respuesta 5: {respuesta5}. Es correcta: {es_correcta_5}")
+
+        id_list = Quiz.objects.filter().values_list('id', flat=True) #Obtiene el id mas alto de la lista de objetos
+        max_id = (max(id_list)) + 1 #Suma 1 al id maximo de la lista de objetos
+        quiz = Quiz(id=max_id, pregunta=pregunta, respuesta_1=respuesta1, correcto_1=es_correcta_1, respuesta_2=respuesta2, correcto_2=es_correcta_2, respuesta_3=respuesta3, correcto_3=es_correcta_3, respuesta_4=respuesta4, correcto_4=es_correcta_4, respuesta_5=respuesta5, correcto_5=es_correcta_5)
+        print(quiz.id)
+        print(quiz.id_categoria)
+        #quiz.save()
+        print(f'{quiz} guardado!')
+        print("Quiz:", quiz)
+
+    context = {}
+    return render(request, 'admin.html', context)
 
 @login_required(login_url='inicio')
 def fin(request):
@@ -151,7 +202,7 @@ def juego(request):
     ordinales_dificil = ordinales[0:cantidad_respuestas]
     
     # generar respuestas aleatorias según cantidad dificultad
-    indice_respuestas = random.sample(range(0,cantidad_respuestas), cantidad_respuestas) 
+    indice_respuestas = random.sample(range(0,cantidad_respuestas), cantidad_respuestas)
 
     respuestas_random = []
     for indice in indice_respuestas:

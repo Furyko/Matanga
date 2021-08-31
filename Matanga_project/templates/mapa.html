@@ -32,7 +32,9 @@
             <option value="Diciembre">CHINA</option> 
         </select>
         <br><br><br><br>
-        <button type="button" style="font-size: large;" class="btn btn-danger">JUGAR</button>
+        <form action="{% url 'juego' %}">
+            <input type="submit" style="font-size: large;" class="btn btn-danger" value="JUGAR">
+        </form>
     </div>
 
     <div style="text-align:center">

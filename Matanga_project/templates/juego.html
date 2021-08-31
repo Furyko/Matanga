@@ -2,91 +2,39 @@
 
 
 {% block content %}
-    <!--Esto es un comentario-->
-
+<head>
     <div src="static 'help_btn.png'"></div>
-
-    <br><br><br><br><br><br><br>
-    <div class= "juego">
-<<<<<<< HEAD
-        <label for="formFile" class="form-label">CATEGORÍA: {{categoria}}</label>
-        <br>
-        
-        <div id="reloj">
-            Te quedan: 10 00 seg
-          </div>
-        <br>
-        <label for="formFile" class="form-label"> <h4> ¡Respondé rápido! </h4></label>
-        <h3>{{pregunta}}</h3> 
-        pregunta_id : {{pregunta_id}} 
-        Cantidad preguntas: {{cantidad_respuestas}}
-
-
-
-<br><br>  
-
-          <br>
-          <table class="table">
-            {% for key,value in respuestas.items %}
-            <tbody>
-              <tr>
-                <td><input type="checkbox" value=""></td>
-                <td>{{value.0}}</td>
-                <td style="text-align: left;">{{value.1}}</td>
-                <td>&nbsp &nbsp &nbsp &nbspadmin: {{value.2}}</td>
-              </tr>
-            </tbody>
-            {% endfor %}
-          </div>
-          <br>
-            
-          </table>
-          <br>
-          <br>
-          <br>
-          <button style="font-size: large;" type="submit" class="btn btn-light"> ¡Estoy seguro! </button>
-
+</head>
+<body>
+  <br><br><br><br><br><br><br>
+  <div class= "juego">
+    <label for="formFile" class="form-label">CATEGORÍA: {{categoria}}</label>
+    <br>
+    <div id="reloj">
+      Te quedan: 10 00 seg
     </div>
-=======
-      <header>
-        <label for="formFile" class="form-label">CATEGORÍA</label>
-        <div class="reloj">
-          <div class="reloj-texto">Tiempo restante</div>
-          <div class="reloj-tiempo">30</div>
-        </div>
-      </header>
-      <section>
-        <br>
-        <div class="pregunta">
-          <label for="formFile" class="form-label">Pregunta</label>
-        </div>
-        <br>
-        <div class="opciones">
-          <div class="opcion">
-              <label class="form-label">A) </label>
-              <button type="button" class="btn btn-light"> RESPUESTA 1 </button>
-          </div>
-          <br>
-          <div class="opcion">
-            <label class="form-label">B) </label>
-            <button type="button" class="btn btn-light"> RESPUESTA 2 </button>
-          </div>
-          <br>
-          <div class="opcion">
-            <label class="form-label">C) </label>
-            <button type="button" class="btn btn-light"> RESPUESTA 3 </button>
-          </div>
-          <br>
-        </div>
-      </section>
-        <br><br>
-    </div>
-    <br><br><br><br><br><br>
-    
-    <script>
-    </script>
->>>>>>> 3ac2a92c12bc5ce6d209d81e791245e965493523
-
-  
-
+    <br>
+    <label for="formFile" class="form-label"> <h4> ¡Respondé rápido! </h4></label>
+    <h3>{{pregunta}}</h3> 
+    pregunta_id : {{pregunta_id}}
+    Cantidad preguntas: {{cantidad_respuestas}}
+    <br><br>
+    <table class="table">
+      {% for key,value in respuestas.items %}
+      <tbody>
+        <tr>
+          <td><input type="checkbox" value=""></td>
+          <td>{{value.0}}</td>
+          <td style="text-align: left;">{{value.1}}</td>
+          <td>&nbsp &nbsp &nbsp &nbspadmin: {{value.2}}</td>
+        </tr>
+      </tbody>
+      {% endfor %}
+    </table>
+    <br>
+    <br>
+    <button style="font-size: large;" type="submit" class="btn btn-light"> ¡Estoy seguro! </button>
+   </div>
+  </div>
+</body>
 {% endblock %}
