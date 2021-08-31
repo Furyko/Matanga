@@ -111,21 +111,20 @@ def admin(request):
         print(f"Respuesta 4: {respuesta4}. Es correcta: {es_correcta_4}")
         print(f"Respuesta 5: {respuesta5}. Es correcta: {es_correcta_5}")
 
+        categoria_instancia = Categoria.objects.get(id=int(categoria))
+
         id_list = Quiz.objects.filter().values_list('id', flat=True) #Obtiene el id mas alto de la lista de objetos
         max_id = (max(id_list)) + 1 #Suma 1 al id maximo de la lista de objetos
-        quiz = Quiz(id=max_id, pregunta=pregunta, respuesta_1=respuesta1, correcto_1=es_correcta_1, respuesta_2=respuesta2, correcto_2=es_correcta_2, respuesta_3=respuesta3, correcto_3=es_correcta_3, respuesta_4=respuesta4, correcto_4=es_correcta_4, respuesta_5=respuesta5, correcto_5=es_correcta_5)
-        print(quiz.id)
-        print(quiz.id_categoria)
-        #quiz.save()
+        quiz = Quiz(id=max_id, id_categoria=categoria_instancia, pregunta=pregunta, respuesta_1=respuesta1, correcto_1=es_correcta_1, respuesta_2=respuesta2, correcto_2=es_correcta_2, respuesta_3=respuesta3, correcto_3=es_correcta_3, respuesta_4=respuesta4, correcto_4=es_correcta_4, respuesta_5=respuesta5, correcto_5=es_correcta_5)
+        print(quiz.id_categoria.id)
+        quiz.save()
         print(f'{quiz} guardado!')
-        print("Quiz:", quiz)
 
     context = {}
     return render(request, 'admin.html', context)
 
 @login_required(login_url='inicio')
 def fin(request):
-    #return HttpResponse("You're at the quiz index.")
     template = loader.get_template('fin.html')
     return HttpResponse(template.render({}, request))
 
@@ -229,24 +228,18 @@ def juego(request):
     context = {'form': form, 'punto': ejercicios}
     return render(request, 'estudiantes/corregir_ejercicio.html', context)              
 '''
-    #template = loader.get_template('juego.html')
-    #return HttpResponse(template.render({}, request))
 
 
 @login_required(login_url='inicio')
 def mapa(request):
-    #return HttpResponse("You're at the quiz index.")
-    template = loader.get_template('mapa.html')
-    return HttpResponse(template.render({}, request))
+    return render(request, 'mapa.html', {})
 
 @login_required(login_url='inicio')
 def ranking(request):
-    #return HttpResponse("You're at the quiz index.")
     template = loader.get_template('ranking.html')
     return HttpResponse(template.render({}, request))
 
 @login_required(login_url='inicio')
 def victoria(request):
-    #return HttpResponse("You're at the quiz index.")
     template = loader.get_template('victoria.html')
     return HttpResponse(template.render({}, request)) 

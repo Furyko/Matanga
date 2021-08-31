@@ -26,17 +26,17 @@
     <form method="POST" action="" id="checkGroup">
     {% csrf_token %}
     <div class="opcion">
-      <label for="formFile" class="form-label">Los campos con * son obligatorios</label>
+      <label id="campos_obligatorios" class="form-label">Los campos con * son obligatorios</label>
       <br>
-      <select style="font-size: 100%; width: 400px; height: 40px" name="categoria" required>
-        <option style="text-align:center" disabled selected=""> CATEGORÍA </option>
-        <option value="1">CULTURA Y ARTE</option> 
-        <option value="2">HISTORIA</option> 
+      <select style="font-size: 100%; width: 400px; height: 40px" name="categoria" id="categoria" required>
+        <option value=""> CATEGORÍA </option>
+        <option value="1">CULTURA Y ARTE</option>
+        <option value="2">HISTORIA</option>
         <option value="3">DEPORTE</option>
-        <option value="4">GEOGRAFÍA</option> 
-        <option value="5">ECONOMÍA</option> 
-        <option value="6">CIENCIA Y EDUCACIÓN</option> 
-        <option value="7">ENTRETENIMIENTO</option> 
+        <option value="4">GEOGRAFÍA</option>
+        <option value="5">ECONOMÍA</option>
+        <option value="6">CIENCIA Y EDUCACIÓN</option>
+        <option value="7">ENTRETENIMIENTO</option>
       </select>
       <br>
       <br>
@@ -85,10 +85,13 @@
     <br>
     <br>
   </form>
-  <input style="font-size: large;" type="submit" class="btn btn-danger" value="JUGAR">
+  <form action="{% url 'mapa' %}">
+    <input style="font-size: large;" type="submit" class="btn btn-danger" value="JUGAR">
+  </form>
   </div>
 <br><br><br><br><br><br>
 <script>
+/*Script que devuelve un mensaje si falta marcar aunque sea una respuesta como correcta:*/
 $('#checkGroup').submit(function(e){
     e.preventDefault();
     var ck_box = $('input[type="checkbox"]:checked').length;

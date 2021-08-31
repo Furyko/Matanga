@@ -86,8 +86,11 @@
                 <span>Opciones</span>
             </div>
             <div class="logout_btn">
-                <span>Hola, {{request.user}}.</span>
-                <span><a href="{% url 'cerrarSesion' %}">¿Cerrar Sesión?</a></span>
+                <p><span>Hola, {{request.user}}.</span></p>
+                {% if request.user.is_superuser %}
+                <p><a href="{% url 'admin' %}">¿Añadir preguntas?</a></p>
+                {% endif %}
+                <p><span><a href="{% url 'cerrarSesion' %}">¿Cerrar Sesión?</a></span></p>
             </div>
         </div>
 
