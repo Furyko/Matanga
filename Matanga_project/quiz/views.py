@@ -7,7 +7,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from django.db.models import Max
-from .forms import FormCrearUsuario
+from django.contrib.auth.forms import UserCreationForm
+from .forms import *
 
 from .models import *
 import random
@@ -138,7 +139,22 @@ def derrota(request):
 
 
 @login_required(login_url='inicio')
-def juego(request):
+def juego(request, id_usuario):
+    
+    usuario = Prueba.objects.get(id=id_usuario)
+    
+    
+    if request.method == 'POST':
+        form = FormPrueba(request.POST, instance= usuario)
+        if form.is_valid():
+            
+            form.save()
+            #return redirect('mapa')
+    else:
+        form = FormPrueba(instance= usuario)
+    
+    
+
     categorias = Categoria.objects.all()
 
     # SELECCIÓN CATEGORÍA
@@ -177,6 +193,7 @@ def juego(request):
 
     #GET RESPUESTAS de la PREGUNTA de la CATEGORÍA RANDOM
     dificultades = Dificultad.objects.all()
+    
 
     respuestas_totales_ord = [pregunta_elegida.respuesta_1, 
                         pregunta_elegida.respuesta_2,
@@ -209,7 +226,7 @@ def juego(request):
     ordinales_dificil = ordinales[0:cantidad_respuestas]
     
     # generar respuestas aleatorias según cantidad dificultad
-    indice_respuestas = random.sample(range(0,cantidad_respuestas), cantidad_respuestas)
+    indice_respuestas = random.sample(range(0,cantidad_respuestas), cantidad_respuestas) 
 
     respuestas_random = []
     for indice in indice_respuestas:
@@ -224,18 +241,22 @@ def juego(request):
         respuestas[indice] = (ordinales_dificil[indice], respuestas_random[indice], opciones_random[indice])
 
     #Eliminar a lo ultimo lo q no sirve de contexto
-    context = {'respuestas': respuestas, 'opciones_random': opciones_random, 'pregunta_id': pregunta_id ,'respuestas_random':respuestas_random, 'indice_respuestas': indice_respuestas, 'cantidad_respuestas': cantidad_respuestas,'pregunta_random':pregunta_random,'categoria': categoria, 'pregunta': pregunta}
+    context = {'usuario': usuario,
+                'form': form, 
+                'respuestas': respuestas, 
+                'opciones_random': opciones_random, 
+                'pregunta_id': pregunta_id ,
+                'respuestas_random':respuestas_random, 
+                'indice_respuestas': indice_respuestas, 
+                'cantidad_respuestas': cantidad_respuestas,
+                'pregunta_random':pregunta_random,
+                'categoria': categoria, 
+                'pregunta': pregunta}
+
     return render(request, 'juego.html', context) 
     
-'''
-    request.method == 'POST':
-        form = Corregir3ro_1ra_punto1(request.POST, instance=ejercicio)
-
-
-
-    context = {'form': form, 'punto': ejercicios}
-    return render(request, 'estudiantes/corregir_ejercicio.html', context)              
-'''
+    #template = loader.get_template('juego.html')
+    #return HttpResponse(template.render({}, request))
 
 
 @login_required(login_url='inicio')

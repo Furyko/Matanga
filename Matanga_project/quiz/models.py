@@ -4,12 +4,6 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.conf import settings
 
-DIFICULTAD_RESPUESTAS = (
-    ('facil', 'facil'),
-    ('intermedio', 'intermedio'),
-    ('dificil', 'dificil'),
-)
-
 
 class Usuario(models.Model):
     nombre= models.CharField(max_length=50)
@@ -24,6 +18,11 @@ class Usuario(models.Model):
 class Date(models.Model):
     date = DateTimeField (auto_now=True)
 
+class Prueba(models.Model):
+    puntaje_maximo= models.IntegerField(blank=True, null=True)
+    puntaje_juego= models.IntegerField(blank=True, null=True)
+    id_usuario = models.ForeignKey('usuario', models.DO_NOTHING, db_column='id_usuario', blank=True, null=True)
+    id_dificultad = models.ForeignKey('dificultad', models.DO_NOTHING, db_column='id_dificultad', blank=True, default=2)
 
 class Partida(models.Model):
     puntaje_maximo= models.IntegerField(blank=True, null=True)
