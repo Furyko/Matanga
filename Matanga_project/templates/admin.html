@@ -17,10 +17,26 @@
       width: 30px;
       height: 30px;
     }
+    .preguntas {
+      display: flex;
+    }
+    .preguntas .id, .pregunta, .respuesta_1, .respuesta_2, .respuesta_3, .respuesta_4, .respuesta_5, .categoria {
+      background: white;
+      border: 2px solid black;
+      height: 160px;
+      width: 150px;
+      text-align: center;
+    }
+    .preguntas .id_titulo, .pregunta_titulo, .respuesta_1_titulo, .respuesta_2_titulo, .respuesta_3_titulo, .respuesta_4_titulo, .respuesta_5_titulo, .categoria_titulo {
+      background: gray;
+      border: 2px solid black;
+      height: 40px;
+      width: 150px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-  <div src="static 'help_btn.png'"></div>
   <br><br><br><br><br><br>
   <div style="text-align:center">
     <form method="POST" action="" id="checkGroup">
@@ -28,6 +44,7 @@
     <div class="opcion">
       <label id="campos_obligatorios" class="form-label">Los campos con * son obligatorios</label>
       <br>
+      <label class="form-label">*</label>
       <select style="font-size: 100%; width: 400px; height: 40px" name="categoria" id="categoria" required>
         <option value=""> CATEGORÍA </option>
         <option value="1">CULTURA Y ARTE</option>
@@ -89,6 +106,125 @@
     <input style="font-size: large;" type="submit" class="btn btn-danger" value="JUGAR">
   </form>
   </div>
+  <div class="preguntas_titulo" style="margin-top: 100px;">
+      <h1>Preguntas guardadas</h1>
+  </div>
+  <div class="preguntas">
+      <div class="id_titulo">
+        <label>ID</label>
+      </div>
+      <div class="pregunta_titulo">
+        <label>Pregunta</label>
+      </div>
+      <div class="respuesta_1_titulo">
+        <label>Respuesta 1</label>
+      </div>
+      <div class="respuesta_2_titulo">
+        <label>Respuesta 2</label>
+      </div>
+      <div class="respuesta_3_titulo">
+        <label>Respuesta 3</label>
+      </div>
+      <div class="respuesta_4_titulo">
+        <label>Respuesta 4</label>
+      </div>
+      <div class="respuesta_5_titulo">
+        <label>Respuesta 5</label>
+      </div>
+      <div class="categoria_titulo">
+        <label>Categoria</label>
+      </div>
+    </div>
+  {% for pregunta in preguntas %}
+  <div class="preguntas">
+    <div class="id">
+      <label>{{pregunta.id}}</label>
+    </div>
+    <div class="pregunta">
+      <label>{{pregunta.pregunta}}</label>
+    </div>
+    {% if pregunta.correcto_1 %}
+    <div class="respuesta_1" style="background: green;">
+      <label>{{pregunta.respuesta_1}}</label>
+    </div>
+    {% else %}
+    <div class="respuesta_1" style="background: rgb(209, 0, 0);">
+      <label>{{pregunta.respuesta_1}}</label>
+    </div>
+    {% endif %}
+
+    {% if pregunta.correcto_2 %}
+    <div class="respuesta_2" style="background: green;">
+      <label>{{pregunta.respuesta_2}}</label>
+    </div>
+    {% else %}
+    <div class="respuesta_2" style="background: rgb(209, 0, 0);">
+      <label>{{pregunta.respuesta_2}}</label>
+    </div>
+    {% endif %}
+
+    {% if pregunta.correcto_3 %}
+    <div class="respuesta_3" style="background: green;">
+      <label>{{pregunta.respuesta_3}}</label>
+    </div>
+    {% else %}
+    <div class="respuesta_3" style="background: rgb(209, 0, 0);">
+      <label>{{pregunta.respuesta_3}}</label>
+    </div>
+    {% endif %}
+
+    {% if pregunta.correcto_4 %}
+    <div class="respuesta_4" style="background: green;">
+      <label>{{pregunta.respuesta_4}}</label>
+    </div>
+    {% else %}
+    <div class="respuesta_4" style="background: rgb(209, 0, 0);">
+      <label>{{pregunta.respuesta_4}}</label>
+    </div>
+    {% endif %}
+
+    {% if pregunta.correcto_5 %}
+    <div class="respuesta_5" style="background: green;">
+      <label>{{pregunta.respuesta_5}}</label>
+    </div>
+    {% else %}
+    <div class="respuesta_5" style="background: rgb(209, 0, 0);">
+      <label>{{pregunta.respuesta_5}}</label>
+    </div>
+    {% endif %}
+
+    <div class="categoria">
+      <label>({{pregunta.id_categoria.id}})</label>
+      {% if pregunta.id_categoria.id == 1 %}
+      <label>CULTURA Y ARTE</label>
+      {% else %}
+        {% if pregunta.id_categoria.id == 2 %}
+        <label>HISTORIA</label>
+        {% else %}
+          {% if pregunta.id_categoria.id == 3 %}
+          <label>DEPORTE</label>
+          {% else %}
+            {% if pregunta.id_categoria.id == 4 %}
+            <label>GEOGRAFÍA</label>
+            {% else %}
+              {% if pregunta.id_categoria.id == 5 %}
+              <label>ECONOMÍA</label>
+              {% else %}
+                {% if pregunta.id_categoria.id == 6 %}
+                <label>CIENCIA Y EDUCACIÓN</label>
+                {% else %}
+                  {% if pregunta.id_categoria.id == 7 %}
+                  <label>ENTRETENIMIENTO</label>
+                  {% endif %}
+                {% endif %}
+              {% endif %}
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
 <br><br><br><br><br><br>
 <script>
 /*Script que devuelve un mensaje si falta marcar aunque sea una respuesta como correcta:*/

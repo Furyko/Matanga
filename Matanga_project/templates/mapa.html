@@ -1,46 +1,84 @@
 {% extends 'templates/base.html' %}
 
 
-{% block content %}
-        <!--Esto es un comentario-->
-    
-        
+{% block content %}      
+    {% load static %}
+    <head>
+        <style>
+            .inicio {
+                margin-top: 10px;
+                position: relative;
+            }
+            .inicio .mapa {
+                position:absolute;
+                top:0;
+                left:0;
+            }
+            .inicio .iniciar_partida{
+                margin-right: 10px;
+                position:absolute;
+                top:0;
+                right:0;
+            }
+            .inicio .personaje {
+                margin-right: 10px;
+                position:absolute;
+                top: 280px;
+                right: 0;
+                background: #afafaf;
+                border: 5px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="inicio">
+            <div class= "mapa">
+                <img src="{% static 'Mapa.png' %}" width="746" height="482"/>
+            </div>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="iniciar_partida">
+                    <select style="font-size: 100%; width: 400px; height: 40px; text-align:center;" name="dificultad" required>
+                        <option value="" disabled selected>DIFICULTAD</option>
+                        <option value="1">FÁCIL</option> 
+                        <option value="2">NORMAL</option> 
+                        <option value="3">DIFÍCIL</option>
+                    </select>
+                    <br><br>
+                    <select style="font-size: 100%; width: 400px; height: 40px; text-align:center;" name="personaje" id="select_personaje" required>
+                        <option value="" disabled selected>PERSONAJE</option>
+                        <option value="gaucho">GAUCHO</option> 
+                        <option value="china">CHINA</option> 
+                    </select>
+                    <br><br><br><br>
+                    <input type="submit" style="font-size: large;" class="btn btn-danger" value="JUGAR">
+                </div>
+            </form>
+            <div class="personaje">
+                <img src="{% static 'Sin_seleccionar.png' %}" width="92.12" height="233.44" id="personaje">
+            </div>
+        </div>
+        <script>
+            var e = document.getElementById("select_personaje");
+            var img = document.getElementById('personaje');
+            var img_gaucho = "{% static 'Gaucho.png' %}";
+            var img_china = "{% static 'China.png' %}";
+            var img_vacia = "{% static 'Sin_seleccionar.png' %}";
 
-    <div  src="static 'help_btn.png'" >
-
-    </div>    
-
-    <div class= "mapa">
-    <img  src="../static/Mapa.png" width="786" height="522"/>
-
-    
-
-    </div>
-    <div class= "mapa" width="786" height="522"> 
-
-        <select style="font-size: 100%; width: 400px; height: 40px" name="instancia">
-            <option style="text-align:center" disabled selected=""> DIFICULTAD </option>
-
-            <option value="Ciclo normal">FÁCIL</option> 
-            <option value="Diciembre">NORMAL</option> 
-            <option value="Marzo">DIFÍCIL</option>
-        </select>
-        <br><br>
-        <select style="font-size: 100%; width: 400px; height: 40px" name="instancia">
-            <option style="text-align:center" disabled selected=""> PERSONAJE </option>
-            <option value="Ciclo normal">GAUCHO</option> 
-            <option value="Diciembre">CHINA</option> 
-        </select>
-        <br><br><br><br>
-        <form action="{% url 'juego' %}">
-            <input type="submit" style="font-size: large;" class="btn btn-danger" value="JUGAR">
-        </form>
-    </div>
-
-    <div style="text-align:center">
-
-        
-    </div>
+            function show(){
+                var as_ = document.forms[0].select_personaje.value;
+                if (as_ == 'gaucho') {
+                    img.src = img_gaucho;
+                } else if (as_ == 'china') {
+                    img.src = img_china;
+                } else {
+                    img.src = img_vacia;
+                }
+            }
+            e.onchange=show;
+            show();
+        </script>
+    </body>
     <br><br><br><br><br><br>
 
 

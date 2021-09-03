@@ -1,11 +1,7 @@
 {% extends 'templates/base.html' %}
 
-
 {% block content %}
-        <!--Esto es un comentario-->
-    
-    <div src="static 'help_btn.png'"></div>
-
+<body>
     <br><br><br><br><br><br><br>
     <div style="text-align:center">
         <div class= "victoria">
@@ -15,16 +11,22 @@
         <label style="font-size: larger;" for="">PUNTAJE: </label>
     </div>
     <br><br>
+    {% load social_share %}
+    <div class="compartir_resultado" style="text-align:center;">
+        {% post_to_twitter "¡Conseguí [puntaje] puntos en Matanga!" '' "¡Postear en Twitter!" %}
+        {% post_to_reddit "¡Conseguí [puntaje] puntos en Matanga!" '' "¡Postear en Reddit!" %}
+    </div>
+    <br>
     <div style="text-align: center;">
         <form action="{% url 'inicio' %}">
             <input style="font-size: large" type="submit" class="btn btn-danger" value="REINTENTAR">
         </form>
-        <br><br>
+        <br>
         <form action="{% url 'inicio' %}">
             <input style="font-size: large;" type="submit" class="btn btn-danger" value="MENÚ PRINCIPAL">
         </form>
     </div>
     <br><br><br><br>
-
+</body>
 
 {% endblock %}

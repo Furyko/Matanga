@@ -1,0 +1,93 @@
+{% extends 'templates/base.html' %}
+
+{% block content %}
+
+<html>
+    <head>
+        <style>
+            .titulo, .estadisticas {
+                text-align: center;
+                margin-top: 50px;
+                margin-bottom: 10px;
+            }
+            .participantes {
+                position: static;
+                margin-left: 50%;
+                transform: translateX(-50%);
+                padding: 10px 20px;
+                font-size: 20px;
+                background: white;
+                display: flex;
+                justify-content: space-between;
+                width: 1000px;
+                border: 2px solid black;
+            }
+            .participantes h2 {
+                position: relative;
+            }
+            .participantes ul {
+                position: relative;
+                background: white;
+            }
+            .participantes ul li {
+                list-style: none;
+            }
+        </style>
+    </head>
+    <body>
+        <!--<div class="estadisticas">
+            <h1>Estadisticas de acceso</h1>
+            <p>[...]</p>
+        </div>-->
+        <div class="titulo">
+            <h1>Participantes</h1>
+        </div>
+        <div class="participantes">
+            <div class="username">
+                <label><p>Nombre de usuario</p></label>
+                <ul>
+                    {% for participante in participantes %}
+                    <li>{{participante.username}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="email">
+                <label><p>Email</p></label>
+                <ul>
+                    {% for participante in participantes %}
+                    {% if not participante.email %}
+                    <li>None<li>
+                    {% endif %}
+                    <li>{{participante.email}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="last_time">
+                <label><p>Ultima conexión</p></label>
+                <ul>
+                    {% for participante in participantes %}
+                    <li>{{participante.last_login}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="creado">
+                <label><p>Fecha registro</p></label>
+                <ul>
+                    {% for participante in participantes %}
+                    <li>{{participante.date_joined}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="es_admin">
+                <label><p>Es admin</p></Es></label>
+                <ul>
+                    {% for participante in participantes %}
+                    <li>{{participante.is_superuser}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>
+
+{% endblock %}

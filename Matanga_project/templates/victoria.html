@@ -1,27 +1,30 @@
 {% extends 'templates/base.html' %}
 
-
 {% block content %}
-<div src="static 'help_btn.png'"></div>    
-
-
-<br><br><br><br><br><br><br>
-<div style="text-align:center">
-
-    <div class= "victoria">
-        <br>
-        <label for="formFile" class="form-label">¡GANASTE!</label>
+<body>
+    <br><br><br><br><br><br><br>
+    <div style="text-align:center">
+        <div class="victoria">
+            <br>
+            <label for="formFile" class="form-label">¡GANASTE!</label>
+        </div>
+            <label style="font-size: larger;" for="">PUNTAJE: </label>
+        </div>
     </div>
-        <label style="font-size: larger;" for="">PUNTAJE: </label>
+    <br><br>
+    {% load social_share %}
+    <div class="compartir_resultado" style="text-align:center;">
+        {% post_to_twitter "¡Conseguí [puntaje] puntos en Matanga!" '' "¡Postear en Twitter!" %}
+        {% post_to_reddit "¡Conseguí [puntaje] puntos en Matanga!" '' "¡Postear en Reddit!" %}
     </div>
-</div>
-<br><br>
-<div style="text-align: center;">
-    <form action="{% url 'ranking' %}">
-        <input style="font-size: large" type="submit" class="btn-danger" value="RANKING">
-    </form>
-</div>
-<br><br><br><br>
+    <br>
+    <div style="text-align: center;">
+        <form action="{% url 'ranking' %}">
+            <input style="font-size: large" type="submit" class="btn-danger" value="RANKING">
+        </form>
+    </div>
+    <br><br><br><br>
+</body>
 
 
 {% endblock %}

@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models.fields import CharField, DateField, DateTimeField, IntegerField
 from django.utils import timezone
 from django.contrib.auth.models import User
-
+from django.conf import settings
 
 DIFICULTAD_RESPUESTAS = (
     ('facil', 'facil'),
@@ -29,10 +29,11 @@ class Partida(models.Model):
     puntaje_maximo= models.IntegerField(blank=True, null=True)
     puntaje_juego= models.IntegerField(blank=True, null=True)
     victoria= models.BooleanField(default=False)
+    personaje = models.CharField(max_length=50)
 
     id_date = models.ForeignKey('date', models.DO_NOTHING, db_column='id_date', blank=True, null=True) #Usar now
     
-    id_usuario = models.ForeignKey('usuario', models.DO_NOTHING, db_column='id_usuario', blank=True, null=True)
+    id_usuario = models.ForeignKey(settings.AUTH_USER_MODEL, models.DO_NOTHING, db_column='id_usuario', blank=True, null=True)
     
     id_categoria = models.ForeignKey('categoria', models.DO_NOTHING, db_column='id_categoria', blank=True, null=True)
 

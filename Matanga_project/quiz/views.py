@@ -6,12 +6,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Max
 from .forms import FormCrearUsuario
 
 from .models import *
 import random
+
+from django.contrib.auth.models import User
 
 def registro(request):
     if request.user.is_authenticated:
@@ -19,7 +20,7 @@ def registro(request):
     else:
         form = FormCrearUsuario()
         if request.method == "POST":
-            form = UserCreationForm(request.POST)
+            form = FormCrearUsuario(request.POST)
             if form.is_valid():
                 form.save()
                 user = form.cleaned_data.get('username')
@@ -49,7 +50,6 @@ def inicio(request):
         context = {}
         return render(request, 'inicio.html', context)
     
-
 def cerrarSesion(request):
     logout(request)
     return redirect('inicio')
@@ -119,13 +119,21 @@ def admin(request):
         print(quiz.id_categoria.id)
         quiz.save()
         print(f'{quiz} guardado!')
-
-    context = {}
+    preguntas = Quiz.objects.all()
+    context = {'preguntas':preguntas}
     return render(request, 'admin.html', context)
 
 @login_required(login_url='inicio')
-def fin(request):
-    template = loader.get_template('fin.html')
+def estadisticas(request):
+    if not request.user.is_superuser:
+        return redirect('mapa')
+    participantes = User.objects.order_by('username') #Con order_by() ordené los objetos en orden alfabetico, pero para obtenerlos también puede usarse all()
+    context = {'participantes':participantes}
+    return render(request, 'estadisticas.html', context)
+
+@login_required(login_url='inicio')
+def derrota(request):
+    template = loader.get_template('derrota.html')
     return HttpResponse(template.render({}, request))
 
 
@@ -232,7 +240,15 @@ def juego(request):
 
 @login_required(login_url='inicio')
 def mapa(request):
-    return render(request, 'mapa.html', {})
+    if request.method == 'POST':
+        personaje = request.POST.get('personaje')
+        dificultad = request.POST.get('dificultad')
+        dificultad_object = Dificultad.objects.get(id=int(dificultad))
+        usuario = User.objects.get(id=request.user.id)
+        partida = Partida(personaje=personaje, id_dificultad=dificultad_object, id_usuario=usuario)
+        return redirect("juego")
+    context = {}
+    return render(request, 'mapa.html', context)
 
 @login_required(login_url='inicio')
 def ranking(request):

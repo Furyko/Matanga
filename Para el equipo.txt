@@ -1,4 +1,0 @@
-Este es el repositorio del proyecto. Acá podemos ir subiendo los cambios que vamos haciendo al sitio. Como todos vamos a poder hacer push, asegurense de tener una copia de seguridad de su código, porfa x'd.
-También recuerden hacer pull antes de editar los archivos en su repositorio local así tienen la última versión del proyecto. Cualquier cosa, si tienen alguna duda, pueden revisar la parte de Versionado del campus, o preguntar en el grupo y nos fijamos.
-
-Acá se muestran algunos comandos básicos de Git (este es el mismo documento que aparece como "Ayuda GIT" en el campus): https://gist.github.com/dasdo/9ff71c5c0efa037441b6
