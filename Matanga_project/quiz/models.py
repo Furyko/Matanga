@@ -29,7 +29,7 @@ class Partida(models.Model):
     puntaje_maximo= models.IntegerField(blank=True, null=True)
     puntaje_juego= models.IntegerField(blank=True, null=True)
     victoria= models.BooleanField(default=False)
-    personaje = models.CharField(max_length=50)
+    personaje = models.CharField(max_length=50,  default='gaucho')
 
     id_date = models.ForeignKey('date', models.DO_NOTHING, db_column='id_date', blank=True, null=True) #Usar now
     
