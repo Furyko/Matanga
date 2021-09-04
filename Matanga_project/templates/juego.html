@@ -2,68 +2,48 @@
 
 
 {% block content %}
-    <!--Esto es un comentario-->
-
-    <div src="static 'help_btn.png'"></div>
-
-    <br><br><br><br><br><br><br>
-  
-    <div class= "juego">
-
-        <label for="formFile" class="form-label">CATEGORÍA: {{categoria}}</label>
-        <br>
-        
-        <div id="reloj">
-            Te quedan: 10 00 seg
-          </div>
-        <br>
-        <label for="formFile" class="form-label"> <h4> ¡Respondé rápido! </h4></label>
-        <h3>{{pregunta}}</h3> 
-        <!--
-          pregunta_id : {{pregunta_id}} 
-        Cantidad preguntas: {{cantidad_respuestas}}
-        -->
-        
-
-        
-<br>  
-          
-          <br>
-          <table class="table">
-            {% for key,value in respuestas.items %}
-            <tbody>
-              <tr>
-
-                <td><input type="checkbox" class="casilla" value=""></td>
-                <td> &nbsp {{value.0}}</td>
-                <td style="text-align: left;" >{{value.1}}</td>
-                <!--  <td> &nbsp &nbsp &nbspadmin: {{value.2}}</td>-->
-              </tr>
-            </tbody>
-            {% endfor %}
-          </div>
-          <br>
-            
-          </table>
-          <br>
-          <br>
-          <br>
-          <button style="font-size: large;" type="submit" class="listo"> ¡Estoy seguro! </button>
-
-
-
-          <div class= "jugador">
-            <!-- 
-            Vida: {{usuario.id_dificultad.vida}}
-            <br>
-            Puntaje: {{usuario.puntaje_juego}}
-                -->
-          </div>  
-          
-
+<body>
+  <div src="static 'help_btn.png'"></div>
+  <br><br><br><br><br><br><br>
+  <div class= "juego">
+    <label for="formFile" class="form-label">CATEGORÍA: {{categoria}}</label>
+    <br> 
+    <div id="reloj">
+        Te quedan: 10 00 seg
     </div>
-
-
-  
-
+    <br>
+    <label for="formFile" class="form-label"><h4>¡Respondé rápido!</h4></label>
+    <h3>{{pregunta}}</h3> 
+    <!--
+      pregunta_id : {{pregunta_id}} 
+    Cantidad preguntas: {{cantidad_respuestas}}
+    -->
+    <br>
+    <table class="table">
+      {% for key,value in respuestas.items %}
+        <tbody>
+          <tr>
+            <td><input type="checkbox" class="casilla" value=""></td>
+            <td> &nbsp {{value.0}}</td>
+            <td style="text-align: left;" >{{value.1}}</td>
+            <!--  <td> &nbsp &nbsp &nbspadmin: {{value.2}}</td>-->
+          </tr>
+        </tbody>
+        {% endfor %}
+      </div>
+      <br>    
+    </table>
+    <br>
+    <br>
+    <br>
+    <button style="font-size: large;" type="submit" class="listo"> ¡Estoy seguro! </button>
+    <div class="jugador">
+        <!-- 
+        Vida: {{usuario.id_dificultad.vida}}
+        <br>
+        Puntaje: {{usuario.puntaje_juego}}
+        -->
+    </div>
+  </div>
+</body>
 {% endblock %}

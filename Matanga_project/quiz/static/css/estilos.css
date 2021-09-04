@@ -28,12 +28,10 @@ body {
 input[type=checkbox] {
     transform: scale(1.5);
 }
-
 .jugador {
     text-align: right;
 
 }
-
 .casilla {
     zoom: 2;
     transform: scale(7);
@@ -42,8 +40,7 @@ input[type=checkbox] {
     -o-transform: scale(7);
     -moz-transform: scale(7);
 
-  }
-
+}
 .listo {
     zoom: 1;
     transform: scale(1.5);
@@ -51,20 +48,13 @@ input[type=checkbox] {
     -webkit-transform: scale(1.5);
     -o-transform: scale(1.5);
     -moz-transform: scale(1.5);
-
-  } 
-
-
-
-
+}
 table {
     text-align: center;
     font-size: 30px;
     position: relative;
     left: 500px;
 }
-
-
 .victoria {
     background: #d6d6d6;
     height: 100px;
@@ -219,8 +209,6 @@ table {
 .juego section .opciones .opcion:hover{
     background: #414141;
 }
-
-
 .inicio {
     margin-top: 10px;
     position: relative;

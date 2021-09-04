@@ -30,17 +30,7 @@ def registro(request):
                 return redirect('inicio')
         context = {'form':form}
         return render(request, 'registro.html', context)
-
-
- 
-    
-
-
-
-
-
-
-
+        
     
 def cerrarSesion(request):
     logout(request)
@@ -49,10 +39,6 @@ def cerrarSesion(request):
 def recuperar(request):
     template = loader.get_template('recuperar.html')
     return HttpResponse(template.render({}, request))
-
-
-
-
 
 
 @login_required(login_url='inicio')
@@ -121,9 +107,6 @@ def admin(request):
     return render(request, 'admin.html', context)
 
 
-
-
-
 @login_required(login_url='inicio')
 def estadisticas(request):
     if not request.user.is_superuser:
@@ -133,16 +116,10 @@ def estadisticas(request):
     return render(request, 'estadisticas.html', context)
 
 
-
-
-
 @login_required(login_url='inicio')
 def derrota(request):
     template = loader.get_template('derrota.html')
     return HttpResponse(template.render({}, request))
-
-
-
 
 
 def inicio(request):
@@ -187,16 +164,14 @@ def inicio(request):
         return render(request, 'inicio.html', context)
 
 
-
-
 @login_required(login_url='inicio')
 def mapa(request, id_usuario):
     usuario = request.user.id
     user_id = User.objects.get(id = 5).id
     
-    if request.method == 'POST':        
-        form = FormPartida(request.POST)        
-        
+    if request.method == 'POST':
+        form = FormPartida(request.POST)
+
         if form.is_valid():
             form = form.save(commit=False)
             form.personaje = request.POST.get('personaje')
