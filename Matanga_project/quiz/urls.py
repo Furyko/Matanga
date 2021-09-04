@@ -16,5 +16,6 @@ urlpatterns = [
     path('cerarSesion/', views.cerrarSesion, name="cerrarSesion"),
 
          #Aquí impactan los FORMS
-    path('juego/<int:id_usuario>', views.juego, name="juego"),
+    path('juego/<int:id_usuario>', views.juego, name='juego'),
+    path('mapa/<int:id_usuario>', views.mapa, name='mapa'),
 ]

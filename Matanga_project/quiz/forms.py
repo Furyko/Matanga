@@ -10,10 +10,15 @@ class FormCrearUsuario(UserCreationForm):
     email = forms.EmailField(required=True)
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = '__all__'
 
 
-class FormPrueba (forms.ModelForm):
+class FormFecha (forms.ModelForm):
     class Meta():
-        model = Prueba
+        model = Fecha
+        fields = '__all__'
+
+class FormPartida (forms.ModelForm):
+    class Meta():
+        model = Partida
         fields = '__all__'

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
+from django.contrib.auth.models import User
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -29,27 +30,17 @@ def registro(request):
                 return redirect('inicio')
         context = {'form':form}
         return render(request, 'registro.html', context)
-        
 
-def inicio(request):
-    if request.user.is_authenticated:
-        return redirect('mapa')
-    else:
-        if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
 
-            user = authenticate(request, username=username, password=password)
+ 
+    
 
-            if user is not None:
-                login(request, user)
-                return redirect('mapa')
-            else:
-                messages.info(request, 'Nombre de usuario o contraseña incorrectos')
-                return render(request, 'inicio.html', {})
 
-        context = {}
-        return render(request, 'inicio.html', context)
+
+
+
+
+
     
 def cerrarSesion(request):
     logout(request)
@@ -58,6 +49,11 @@ def cerrarSesion(request):
 def recuperar(request):
     template = loader.get_template('recuperar.html')
     return HttpResponse(template.render({}, request))
+
+
+
+
+
 
 @login_required(login_url='inicio')
 def admin(request):
@@ -124,6 +120,10 @@ def admin(request):
     context = {'preguntas':preguntas}
     return render(request, 'admin.html', context)
 
+
+
+
+
 @login_required(login_url='inicio')
 def estadisticas(request):
     if not request.user.is_superuser:
@@ -132,28 +132,105 @@ def estadisticas(request):
     context = {'participantes':participantes}
     return render(request, 'estadisticas.html', context)
 
+
+
+
+
 @login_required(login_url='inicio')
 def derrota(request):
     template = loader.get_template('derrota.html')
     return HttpResponse(template.render({}, request))
 
 
+
+
+
+def inicio(request):
+    if request.user.is_authenticated:
+        usuario =  request.user.id
+        usuario_url = str(usuario)
+        return redirect('mapa/'+ usuario_url)
+
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+        
+                login(request, user)
+
+                usuario =  request.user.id
+                '''
+                user_id = User.objects.get(id = 5)
+
+                form = FormPartida(request.POST)
+                if form.is_valid():
+                    form = form.save(commit=False)
+                    form.id_usuario = user_id
+                    form.save()
+                '''
+                
+                usuario_url = str(usuario)
+                #context = {'usuario': usuario}
+                #return redirect('mapa', context)
+                return redirect('mapa/' + usuario_url)
+
+            else:
+                messages.info(request, 'Nombre de usuario o contraseña incorrectos')
+                return render(request, 'inicio.html', {})
+
+        #usuario =  request.user.id
+        #context = {'usuario': usuario}
+        context={}
+        return render(request, 'inicio.html', context)
+
+
+
+
+@login_required(login_url='inicio')
+def mapa(request, id_usuario):
+    usuario = request.user.id
+    user_id = User.objects.get(id = 5).id
+    
+    if request.method == 'POST':        
+        form = FormPartida(request.POST)        
+        
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.personaje = request.POST.get('personaje')
+            dificultad = request.POST.get('dificultad')
+ 
+            #form.id_fecha = 1
+            #form.id_usuario = user_id
+            form.puntaje_juego = 0
+            
+            form.save()
+
+            #jugada = str(Partida.objects.get(id=user_id))
+            #return redirect("juego/" + str(usuario))
+            return redirect("/juego/5")
+
+    usuar = User.objects.get(id = usuario).id
+    
+    context = {'usuar': usuar, 'usuario': usuario}
+    return render(request, 'mapa.html', context)
+
+
 @login_required(login_url='inicio')
 def juego(request, id_usuario):
-    
-    usuario = Prueba.objects.get(id=id_usuario)
-    
+    usuario = User.objects.get(id = id_usuario)
+
+    #user_id = Partida.objects.get(id= 5).id
     
     if request.method == 'POST':
-        form = FormPrueba(request.POST, instance= usuario)
-        if form.is_valid():
-            
+        form = FormPartida(request.POST, instance= usuario)
+        if form.is_valid():            
             form.save()
             #return redirect('mapa')
     else:
-        form = FormPrueba(instance= usuario)
-    
-    
+        form = FormPartida(instance= usuario)    
 
     categorias = Categoria.objects.all()
 
@@ -259,17 +336,7 @@ def juego(request, id_usuario):
     #return HttpResponse(template.render({}, request))
 
 
-@login_required(login_url='inicio')
-def mapa(request):
-    if request.method == 'POST':
-        personaje = request.POST.get('personaje')
-        dificultad = request.POST.get('dificultad')
-        dificultad_object = Dificultad.objects.get(id=int(dificultad))
-        usuario = User.objects.get(id=request.user.id)
-        partida = Partida(personaje=personaje, id_dificultad=dificultad_object, id_usuario=usuario)
-        return redirect("juego")
-    context = {}
-    return render(request, 'mapa.html', context)
+
 
 @login_required(login_url='inicio')
 def ranking(request):

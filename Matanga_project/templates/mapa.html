@@ -5,39 +5,17 @@
     {% load static %}
     <head>
         <style>
-            .inicio {
-                margin-top: 10px;
-                position: relative;
-            }
-            .inicio .mapa {
-                position:absolute;
-                top:0;
-                left:0;
-            }
-            .inicio .iniciar_partida{
-                margin-right: 10px;
-                position:absolute;
-                top:0;
-                right:0;
-            }
-            .inicio .personaje {
-                margin-right: 10px;
-                position:absolute;
-                top: 280px;
-                right: 0;
-                background: #afafaf;
-                border: 5px solid black;
-            }
+            
         </style>
     </head>
     <body>
-        <div class="inicio">
+        <div class="inicio" style="position: relative; top: 50px">
             <div class= "mapa">
                 <img src="{% static 'Mapa.png' %}" width="746" height="482"/>
             </div>
             <form method="POST" action="">
                 {% csrf_token %}
-                <div class="iniciar_partida">
+                <div class="iniciar_partida" style="position: relative; top: 100px">
                     <select style="font-size: 100%; width: 400px; height: 40px; text-align:center;" name="dificultad" required>
                         <option value="" disabled selected>DIFICULTAD</option>
                         <option value="1">FÁCIL</option> 
@@ -54,9 +32,10 @@
                     <input type="submit" style="font-size: large;" class="btn btn-danger" value="JUGAR">
                 </div>
             </form>
-            <div class="personaje">
-                <img src="{% static 'Sin_seleccionar.png' %}" width="92.12" height="233.44" id="personaje">
+            <div class="personaje" style="background-color : transparent; border: solid transparent">
+                <img src="{% static 'Sin_seleccionar.png' %}" width="138" height="349" id="personaje">
             </div>
+            
         </div>
         <script>
             var e = document.getElementById("select_personaje");
@@ -79,7 +58,8 @@
             show();
         </script>
     </body>
-    <br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br>
+   
 
 
 {% endblock %}

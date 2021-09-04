@@ -8,10 +8,12 @@ body {
     border: 5px solid black;
     float: left;
     text-align: center;
+    position: relative;
+    top: 500px;
 }
 .juego {
     background: #e7b250;
-    height: 850px;
+    height: 750px;
     margin: 30px;
     padding: 30px;
     border: 5px solid black;
@@ -41,6 +43,17 @@ input[type=checkbox] {
     -moz-transform: scale(7);
 
   }
+
+.listo {
+    zoom: 1;
+    transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+
+  } 
+
 
 
 
@@ -205,4 +218,29 @@ table {
 }
 .juego section .opciones .opcion:hover{
     background: #414141;
+}
+
+
+.inicio {
+    margin-top: 10px;
+    position: relative;
+}
+.inicio .mapa {
+    position:relative;
+    top: 50px;;
+    left:0;
+}
+.inicio .iniciar_partida{
+    margin-right: 10px;
+    position:absolute;
+    top:500;
+    right:0;
+}
+.inicio .personaje {
+    margin-right: 10px;
+    position:absolute;
+    top: 280px;
+    right: 0;
+    background: #afafaf;
+    border: 5px solid black;
 }

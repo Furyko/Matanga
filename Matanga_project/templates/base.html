@@ -8,13 +8,13 @@
         <link rel="icon" href="{% static 'favicon.ico' %}">
         
         <div style="text-align:center">
-            <audio controls loop id="miaudio">
+            <audio loop id="miaudio">
                 <source src="{% static 'Fondo.mp3' %}" volume=30 type="audio/mp3">
                 Tu navegador no es compatible para reproducir audio.
             </audio>
             <script>
                 var audio = document.getElementById("miaudio");
-                audio.volume = 0.2;
+                audio.volume = 0.1;
             </script>
         </div>
         
