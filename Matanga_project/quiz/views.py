@@ -30,7 +30,10 @@ def registro(request):
                 return redirect('inicio')
         context = {'form':form}
         return render(request, 'registro.html', context)
-        
+
+
+
+
     
 def cerrarSesion(request):
     logout(request)
@@ -39,6 +42,8 @@ def cerrarSesion(request):
 def recuperar(request):
     template = loader.get_template('recuperar.html')
     return HttpResponse(template.render({}, request))
+
+
 
 
 @login_required(login_url='inicio')
@@ -107,6 +112,9 @@ def admin(request):
     return render(request, 'admin.html', context)
 
 
+
+
+
 @login_required(login_url='inicio')
 def estadisticas(request):
     if not request.user.is_superuser:
@@ -116,10 +124,16 @@ def estadisticas(request):
     return render(request, 'estadisticas.html', context)
 
 
+
+
+
 @login_required(login_url='inicio')
 def derrota(request):
     template = loader.get_template('derrota.html')
     return HttpResponse(template.render({}, request))
+
+
+
 
 
 def inicio(request):
@@ -139,29 +153,19 @@ def inicio(request):
                 login(request, user)
 
                 usuario =  request.user.id
-                '''
-                user_id = User.objects.get(id = 5)
-
-                form = FormPartida(request.POST)
-                if form.is_valid():
-                    form = form.save(commit=False)
-                    form.id_usuario = user_id
-                    form.save()
-                '''
                 
                 usuario_url = str(usuario)
-                #context = {'usuario': usuario}
-                #return redirect('mapa', context)
+
                 return redirect('mapa/' + usuario_url)
 
             else:
                 messages.info(request, 'Nombre de usuario o contraseña incorrectos')
                 return render(request, 'inicio.html', {})
 
-        #usuario =  request.user.id
-        #context = {'usuario': usuario}
+
         context={}
         return render(request, 'inicio.html', context)
+
 
 
 @login_required(login_url='inicio')
@@ -169,43 +173,51 @@ def mapa(request, id_usuario):
     usuario = request.user.id
     user_id = User.objects.get(id = 5).id
     
-    if request.method == 'POST':
-        form = FormPartida(request.POST)
+    if request.method == 'POST':        
+        form = FormPartida(request.POST) 
+        form2 = FormFecha(request.POST) #Creará automáticamente fecha y hora en tabla fecha       
+        
+        if form.is_valid(): #Utilicé un solo if para ambos form
+            form2 = form2.save(commit=False)
+            form2.save()
 
-        if form.is_valid():
+            
+
+
             form = form.save(commit=False)
             form.personaje = request.POST.get('personaje')
-            dificultad = request.POST.get('dificultad')
- 
-            #form.id_fecha = 1
-            #form.id_usuario = user_id
+            form.id_fecha = form2 #No se debe pasar el id así "form2.id" ya que el fk es un objeto
+            form.id_usuario = request.user #Lo mismo aquí, es todo el usuario no solo el id
+            dificultad = request.POST.get('dificultad') #lo mismo aquí y antes se debe obtener el objeto
+            dificultad_object = Dificultad.objects.get(id=int(dificultad))
+            form.id_dificultad =  dificultad_object
             form.puntaje_juego = 0
-            
             form.save()
 
-            #jugada = str(Partida.objects.get(id=user_id))
-            #return redirect("juego/" + str(usuario))
-            return redirect("/juego/5")
+            id_part = form.id #Cada partida se guardará en tabla y contendrá datos de usuario, fecha, puntaje, etc 
+            jugada = str(id_part)
+            return redirect("/juego/" + jugada)
 
-    usuar = User.objects.get(id = usuario).id
-    
-    context = {'usuar': usuar, 'usuario': usuario}
+ 
+    context = {
+            'usuario': usuario,
+            }
     return render(request, 'mapa.html', context)
 
 
 @login_required(login_url='inicio')
-def juego(request, id_usuario):
-    usuario = User.objects.get(id = id_usuario)
+def juego(request, id_partida):
+    partida = Partida.objects.get(id = id_partida)
 
     #user_id = Partida.objects.get(id= 5).id
     
     if request.method == 'POST':
-        form = FormPartida(request.POST, instance= usuario)
+        form = FormPartida(request.POST, instance= partida)
         if form.is_valid():            
             form.save()
             #return redirect('mapa')
     else:
-        form = FormPartida(instance= usuario)    
+        form = FormPartida(instance= partida)    
 
     categorias = Categoria.objects.all()
 
@@ -293,8 +305,7 @@ def juego(request, id_usuario):
         respuestas[indice] = (ordinales_dificil[indice], respuestas_random[indice], opciones_random[indice])
 
     #Eliminar a lo ultimo lo q no sirve de contexto
-    context = {'usuario': usuario,
-                'form': form, 
+    context = { 'form': form, 
                 'respuestas': respuestas, 
                 'opciones_random': opciones_random, 
                 'pregunta_id': pregunta_id ,
@@ -307,8 +318,6 @@ def juego(request, id_usuario):
 
     return render(request, 'juego.html', context) 
     
-    #template = loader.get_template('juego.html')
-    #return HttpResponse(template.render({}, request))
 
 
 

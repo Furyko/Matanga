@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 import datetime
+import threading
 
 
 class Partida(models.Model):
@@ -13,8 +14,7 @@ class Partida(models.Model):
     victoria= models.BooleanField(blank=True, null=True, default=False)
     personaje = models.CharField(blank=True, null=True, max_length=50,  default='gaucho')
 
-    #id_date = models.ForeignKey('date', models.DO_NOTHING, db_column='id_date', blank=True, null=True) #Usar now
-    id_fecha = id_categoria = models.ForeignKey('fecha', models.DO_NOTHING, db_column='id_fecha', blank=True, null=True)
+    id_fecha = models.ForeignKey('fecha', models.DO_NOTHING, db_column='id_fecha', blank=True, null=True)
     
     id_usuario = models.ForeignKey(settings.AUTH_USER_MODEL, models.DO_NOTHING, db_column='id_usuario', blank=True, null=True)
     
