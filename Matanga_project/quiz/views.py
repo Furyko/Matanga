@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, request
 from django.template import loader
 from django.contrib.auth.models import User
 
@@ -166,11 +166,22 @@ def mapa(request, id_usuario):
             form.id_usuario = request.user #Lo mismo aquí, es todo el usuario no solo el id
             dificultad = request.POST.get('dificultad') #lo mismo aquí y antes se debe obtener el objeto
             dificultad_object = Dificultad.objects.get(id=int(dificultad))
+            print("Dificultad object:", dificultad)
+            print("Tipo:", type(dificultad))
             form.id_dificultad =  dificultad_object
             form.puntaje_juego = 0
+            if request.POST.get('dificultad') == "1":
+                form.preguntas_restantes = 5
+            elif request.POST.get('dificultad') == "2":
+                form.preguntas_restantes = 10
+            elif request.POST.get('dificultad') == "3":
+                form.preguntas_restantes = 15
+            print("Preguntas restante:", form.preguntas_restantes)
             form.save()
 
             id_part = form.id #Cada partida se guardará en tabla y contendrá datos de usuario, fecha, puntaje, etc 
+            partida = Partida.objects.get(id=id_part)
+            print("Preguntas restantes mapa:",partida.preguntas_restantes)
             jugada = str(id_part)
             return redirect("/juego/" + jugada)
  
@@ -182,116 +193,243 @@ def mapa(request, id_usuario):
 
 @login_required(login_url='inicio')
 def juego(request, id_partida):
-    partida = Partida.objects.get(id = id_partida)
+    partida = Partida.objects.get(id=id_partida)
+    print("Preguntas restantes juego:",partida.preguntas_restantes)
 
     #user_id = Partida.objects.get(id= 5).id
     
-    if request.method == 'POST':
-        form = FormPartida(request.POST, instance= partida)
-        if form.is_valid():            
-            form.save()
+    #if request.method == 'POST':
+    #    form = FormPartida(request.POST, instance=partida)
+    #    if form.is_valid():            
+    #        form.save()
             #return redirect('mapa')
+    #else:
+    #    form = FormPartida(instance= partida)
+    print("Preguntas restantes juego fuera del POST:",partida.preguntas_restantes)
+
+    if request.method == "POST":
+        print("Se recibió POST")
+
+        ask = request.POST
+        print(ask)
+        print("preguntas_restantes:",partida.preguntas_restantes)
+        if "True" in ask and "False" in ask:
+            print("Hubo respuestas correctas e incorrectas")
+            print("- 1 punto")
+        elif "True" in ask:
+            print("+ 1 punto")
+            partida.puntaje_juego += 1
+        elif "False" in ask:
+            print("- 1 punto")
+            partida.puntaje_juego -= 1
+        partida.preguntas_restantes -= 1
+        partida.save()
+        id_part = partida.id
+        if partida.preguntas_restantes <= 0:
+            return redirect('/victoria/'+str(id_part))
+        print("preguntas_restantes tras restar:",partida.preguntas_restantes)
+
+        categorias = Categoria.objects.all()
+
+        # SELECCIÓN CATEGORÍA
+        #random básico
+        cantidad_cat = Categoria.objects.all().count() 
+        ubicacion_index = random.choice(range(cantidad_cat)) 
+
+        #Id categoria != index de categoría -> se corrige
+        ubicacion_cat_id = ubicacion_index +1
+
+        #Para CONTEXTO la cat segun su ID - No habrá problemas si se agrega una nueva cat luego
+        categoria = categorias.get(id=ubicacion_cat_id).categoria 
+        
+
+        # SELECCION PREGUNTAS de la CATEGORÍA RANDOM
+        quiz = Quiz.objects.all()
+        preguntas_cat = [] #Se guardan los id de toda pregunta de esa categoria
+        cada_quiz_id_cat = []
+        categorias_coincidentes = []
+        
+        for cada_quiz in quiz:
+            #Iguala el id de categoría elegida al azar con la de lista de quiz
+            if cada_quiz.id_categoria.id == ubicacion_cat_id:
+                cada_quiz_id_cat.append(cada_quiz.id)
+                #Lista de id que tienen la misma categoría dentro de quiz
+                preguntas_cat.append(cada_quiz.id)
+                categorias_coincidentes.append(cada_quiz.id_categoria.id)
+            
+        #Random de id de la misma categoria, y se guarda en pregunta
+        pregunta_random = random.choice(preguntas_cat)
+        pregunta_elegida = quiz[pregunta_random - 1] #PARA PASAR INDEX RESTAR 1 
+        pregunta = pregunta_elegida.pregunta
+        pregunta_id = pregunta_elegida.id
+        categoria_pregunta = pregunta_elegida.id_categoria.id
+    
+
+        #GET RESPUESTAS de la PREGUNTA de la CATEGORÍA RANDOM
+        dificultades = Dificultad.objects.all()
+        
+
+        respuestas_totales_ord = [pregunta_elegida.respuesta_1, 
+                            pregunta_elegida.respuesta_2,
+                            pregunta_elegida.respuesta_3,
+                            pregunta_elegida.respuesta_4,
+                            pregunta_elegida.respuesta_5]
+        
+        # index de las respuestas ordenadas coninciden con el index del bool de correcto
+        opciones_totales_ord = [pregunta_elegida.correcto_1,
+                            pregunta_elegida.correcto_2,
+                            pregunta_elegida.correcto_3,
+                            pregunta_elegida.correcto_4,
+                            pregunta_elegida.correcto_5]
+        
+        ordinales = ['a)', 'b)', 'c)', 'd)', 'e)']
+        
+        #EN GENERACIÓN DE PARTIDAS SE DEBERÁ HACER UN IF AQUÍ
+
+        #DIFICULTAD FÁCIL
+        #cantidad_respuestas = dificultades.get(id=1).cant_respuestas
+
+        #DIFICULTAD NORMAL
+        #cantidad_respuestas = dificultades.get(id=2).cant_respuestas
+        
+
+        #DIFICULTAD DIFÍCIL
+        cantidad_respuestas = dificultades.get(id=3).cant_respuestas
+        
+        # ordinales según dificultad
+        ordinales_dificil = ordinales[0:cantidad_respuestas]
+        
+        # generar respuestas aleatorias según cantidad dificultad
+        indice_respuestas = random.sample(range(0,cantidad_respuestas), cantidad_respuestas) 
+
+        respuestas_random = []
+        for indice in indice_respuestas:
+            respuestas_random.append(respuestas_totales_ord[indice])
+        
+        opciones_random = []
+        for indice in indice_respuestas:
+            opciones_random.append(opciones_totales_ord[indice])
+        
+        respuestas = {} #Por último se sumará todo a un solo diccionario para usar en html
+        for indice in range(cantidad_respuestas):
+            respuestas[indice] = (ordinales_dificil[indice], respuestas_random[indice], opciones_random[indice])
+
+        #Eliminar a lo ultimo lo q no sirve de contexto
+        context = { #'form': form, 
+                    'respuestas': respuestas, 
+                    'opciones_random': opciones_random, 
+                    'pregunta_id': pregunta_id ,
+                    'respuestas_random':respuestas_random, 
+                    'indice_respuestas': indice_respuestas, 
+                    'cantidad_respuestas': cantidad_respuestas,
+                    'pregunta_random':pregunta_random,
+                    'categoria': categoria, 
+                    'pregunta': pregunta}
+
+        return render(request, 'juego.html', context)
     else:
-        form = FormPartida(instance= partida)    
+        print("No se recibió POST")
 
-    categorias = Categoria.objects.all()
+        categorias = Categoria.objects.all()
 
-    # SELECCIÓN CATEGORÍA
-    #random básico
-    cantidad_cat = Categoria.objects.all().count() 
-    ubicacion_index = random.choice(range(cantidad_cat)) 
+        # SELECCIÓN CATEGORÍA
+        #random básico
+        cantidad_cat = Categoria.objects.all().count() 
+        ubicacion_index = random.choice(range(cantidad_cat)) 
 
-    #Id categoria != index de categoría -> se corrige
-    ubicacion_cat_id = ubicacion_index +1
+        #Id categoria != index de categoría -> se corrige
+        ubicacion_cat_id = ubicacion_index +1
 
-    #Para CONTEXTO la cat segun su ID - No habrá problemas si se agrega una nueva cat luego
-    categoria = categorias.get(id=ubicacion_cat_id).categoria 
+        #Para CONTEXTO la cat segun su ID - No habrá problemas si se agrega una nueva cat luego
+        categoria = categorias.get(id=ubicacion_cat_id).categoria 
+        
+
+        # SELECCION PREGUNTAS de la CATEGORÍA RANDOM
+        quiz = Quiz.objects.all()
+        preguntas_cat = [] #Se guardan los id de toda pregunta de esa categoria
+        cada_quiz_id_cat = []
+        categorias_coincidentes = []
+        
+        for cada_quiz in quiz:
+            #Iguala el id de categoría elegida al azar con la de lista de quiz
+            if cada_quiz.id_categoria.id == ubicacion_cat_id:
+                cada_quiz_id_cat.append(cada_quiz.id)
+                #Lista de id que tienen la misma categoría dentro de quiz
+                preguntas_cat.append(cada_quiz.id)
+                categorias_coincidentes.append(cada_quiz.id_categoria.id)
+            
+        #Random de id de la misma categoria, y se guarda en pregunta
+        pregunta_random = random.choice(preguntas_cat)
+        pregunta_elegida = quiz[pregunta_random - 1] #PARA PASAR INDEX RESTAR 1 
+        pregunta = pregunta_elegida.pregunta
+        pregunta_id = pregunta_elegida.id
+        categoria_pregunta = pregunta_elegida.id_categoria.id
     
 
-    # SELECCION PREGUNTAS de la CATEGORÍA RANDOM
-    quiz = Quiz.objects.all()
-    preguntas_cat = [] #Se guardan los id de toda pregunta de esa categoria
-    cada_quiz_id_cat = []
-    categorias_coincidentes = []
-    
-    for cada_quiz in quiz:
-        #Iguala el id de categoría elegida al azar con la de lista de quiz
-        if cada_quiz.id_categoria.id == ubicacion_cat_id:
-            cada_quiz_id_cat.append(cada_quiz.id)
-            #Lista de id que tienen la misma categoría dentro de quiz
-            preguntas_cat.append(cada_quiz.id)
-            categorias_coincidentes.append(cada_quiz.id_categoria.id)
-          
-    #Random de id de la misma categoria, y se guarda en pregunta
-    pregunta_random = random.choice(preguntas_cat)
-    pregunta_elegida = quiz[pregunta_random - 1] #PARA PASAR INDEX RESTAR 1 
-    pregunta = pregunta_elegida.pregunta
-    pregunta_id = pregunta_elegida.id
-    categoria_pregunta = pregunta_elegida.id_categoria.id
- 
+        #GET RESPUESTAS de la PREGUNTA de la CATEGORÍA RANDOM
+        dificultades = Dificultad.objects.all()
+        
 
-    #GET RESPUESTAS de la PREGUNTA de la CATEGORÍA RANDOM
-    dificultades = Dificultad.objects.all()
-    
+        respuestas_totales_ord = [pregunta_elegida.respuesta_1, 
+                            pregunta_elegida.respuesta_2,
+                            pregunta_elegida.respuesta_3,
+                            pregunta_elegida.respuesta_4,
+                            pregunta_elegida.respuesta_5]
+        
+        # index de las respuestas ordenadas coninciden con el index del bool de correcto
+        opciones_totales_ord = [pregunta_elegida.correcto_1,
+                            pregunta_elegida.correcto_2,
+                            pregunta_elegida.correcto_3,
+                            pregunta_elegida.correcto_4,
+                            pregunta_elegida.correcto_5]
+        
+        ordinales = ['a)', 'b)', 'c)', 'd)', 'e)']
+        
+        #EN GENERACIÓN DE PARTIDAS SE DEBERÁ HACER UN IF AQUÍ
 
-    respuestas_totales_ord = [pregunta_elegida.respuesta_1, 
-                        pregunta_elegida.respuesta_2,
-                        pregunta_elegida.respuesta_3,
-                        pregunta_elegida.respuesta_4,
-                        pregunta_elegida.respuesta_5]
-    
-    # index de las respuestas ordenadas coninciden con el index del bool de correcto
-    opciones_totales_ord = [pregunta_elegida.correcto_1,
-                        pregunta_elegida.correcto_2,
-                        pregunta_elegida.correcto_3,
-                        pregunta_elegida.correcto_4,
-                        pregunta_elegida.correcto_5]
-    
-    ordinales = ['a)', 'b)', 'c)', 'd)', 'e)']
-    
-    #EN GENERACIÓN DE PARTIDAS SE DEBERÁ HACER UN IF AQUÍ
+        #DIFICULTAD FÁCIL
+        #cantidad_respuestas = dificultades.get(id=1).cant_respuestas
 
-    #DIFICULTAD FÁCIL
-    #cantidad_respuestas = dificultades.get(id=1).cant_respuestas
+        #DIFICULTAD NORMAL
+        #cantidad_respuestas = dificultades.get(id=2).cant_respuestas
+        
 
-    #DIFICULTAD NORMAL
-    #cantidad_respuestas = dificultades.get(id=2).cant_respuestas
-    
+        #DIFICULTAD DIFÍCIL
+        cantidad_respuestas = dificultades.get(id=3).cant_respuestas
+        
+        # ordinales según dificultad
+        ordinales_dificil = ordinales[0:cantidad_respuestas]
+        
+        # generar respuestas aleatorias según cantidad dificultad
+        indice_respuestas = random.sample(range(0,cantidad_respuestas), cantidad_respuestas) 
 
-    #DIFICULTAD DIFÍCIL
-    cantidad_respuestas = dificultades.get(id=3).cant_respuestas
-    
-    # ordinales según dificultad
-    ordinales_dificil = ordinales[0:cantidad_respuestas]
-    
-    # generar respuestas aleatorias según cantidad dificultad
-    indice_respuestas = random.sample(range(0,cantidad_respuestas), cantidad_respuestas) 
+        respuestas_random = []
+        for indice in indice_respuestas:
+            respuestas_random.append(respuestas_totales_ord[indice])
+        
+        opciones_random = []
+        for indice in indice_respuestas:
+            opciones_random.append(opciones_totales_ord[indice])
+        
+        respuestas = {} #Por último se sumará todo a un solo diccionario para usar en html
+        for indice in range(cantidad_respuestas):
+            respuestas[indice] = (ordinales_dificil[indice], respuestas_random[indice], opciones_random[indice])
 
-    respuestas_random = []
-    for indice in indice_respuestas:
-        respuestas_random.append(respuestas_totales_ord[indice])
-    
-    opciones_random = []
-    for indice in indice_respuestas:
-        opciones_random.append(opciones_totales_ord[indice])
-    
-    respuestas = {} #Por último se sumará todo a un solo diccionario para usar en html
-    for indice in range(cantidad_respuestas):
-        respuestas[indice] = (ordinales_dificil[indice], respuestas_random[indice], opciones_random[indice])
+        #Eliminar a lo ultimo lo q no sirve de contexto
+        context = { #'form': form, 
+                    'respuestas': respuestas, 
+                    'opciones_random': opciones_random, 
+                    'pregunta_id': pregunta_id ,
+                    'respuestas_random':respuestas_random, 
+                    'indice_respuestas': indice_respuestas, 
+                    'cantidad_respuestas': cantidad_respuestas,
+                    'pregunta_random':pregunta_random,
+                    'categoria': categoria, 
+                    'pregunta': pregunta}
 
-    #Eliminar a lo ultimo lo q no sirve de contexto
-    context = { 'form': form, 
-                'respuestas': respuestas, 
-                'opciones_random': opciones_random, 
-                'pregunta_id': pregunta_id ,
-                'respuestas_random':respuestas_random, 
-                'indice_respuestas': indice_respuestas, 
-                'cantidad_respuestas': cantidad_respuestas,
-                'pregunta_random':pregunta_random,
-                'categoria': categoria, 
-                'pregunta': pregunta}
+        return render(request, 'juego.html', context)
 
-    return render(request, 'juego.html', context)
+    
 
 @login_required(login_url='inicio')
 def ranking(request):

@@ -13,6 +13,7 @@ class Partida(models.Model):
     puntaje_juego= models.IntegerField(blank=True, null=True)
     victoria= models.BooleanField(blank=True, null=True, default=False)
     personaje = models.CharField(blank=True, null=True, max_length=50,  default='gaucho')
+    preguntas_restantes = models.IntegerField(blank=True, null=True)
 
     id_fecha = models.ForeignKey('fecha', models.DO_NOTHING, db_column='id_fecha', blank=True, null=True)
     
