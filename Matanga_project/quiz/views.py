@@ -170,18 +170,17 @@ def mapa(request, id_usuario):
             print("Tipo:", type(dificultad))
             form.id_dificultad =  dificultad_object
             form.puntaje_juego = 0
+            form.puntaje_maximo = 0
             if request.POST.get('dificultad') == "1":
                 form.preguntas_restantes = 5
             elif request.POST.get('dificultad') == "2":
                 form.preguntas_restantes = 10
             elif request.POST.get('dificultad') == "3":
                 form.preguntas_restantes = 15
-            print("Preguntas restante:", form.preguntas_restantes)
+            print("Preguntas restantes:", form.preguntas_restantes)
             form.save()
 
             id_part = form.id #Cada partida se guardará en tabla y contendrá datos de usuario, fecha, puntaje, etc 
-            partida = Partida.objects.get(id=id_part)
-            print("Preguntas restantes mapa:",partida.preguntas_restantes)
             jugada = str(id_part)
             return redirect("/juego/" + jugada)
  
@@ -194,7 +193,6 @@ def mapa(request, id_usuario):
 @login_required(login_url='inicio')
 def juego(request, id_partida):
     partida = Partida.objects.get(id=id_partida)
-    print("Preguntas restantes juego:",partida.preguntas_restantes)
 
     #user_id = Partida.objects.get(id= 5).id
     
@@ -205,14 +203,12 @@ def juego(request, id_partida):
             #return redirect('mapa')
     #else:
     #    form = FormPartida(instance= partida)
-    print("Preguntas restantes juego fuera del POST:",partida.preguntas_restantes)
 
     if request.method == "POST":
         print("Se recibió POST")
 
         ask = request.POST
         print(ask)
-        print("preguntas_restantes:",partida.preguntas_restantes)
         if "True" in ask and "False" in ask:
             print("Hubo respuestas correctas e incorrectas")
             print("- 1 punto")
@@ -225,7 +221,11 @@ def juego(request, id_partida):
         partida.preguntas_restantes -= 1
         partida.save()
         id_part = partida.id
+        
         if partida.preguntas_restantes <= 0:
+            if partida.puntaje_juego > partida.puntaje_maximo: #Si el puntaje del jugador es mayor al puntaje maximo, actualiza el puntaje maximo.
+                partida.puntaje_maximo = partida.puntaje_juego
+                print("Puntaje maximo:", partida.puntaje_maximo)
             return redirect('/victoria/'+str(id_part))
         print("preguntas_restantes tras restar:",partida.preguntas_restantes)
 
