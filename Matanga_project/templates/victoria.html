@@ -8,14 +8,14 @@
             <br>
             <label for="formFile" class="form-label">¡GANASTE!</label>
         </div>
-            <label style="font-size: larger;" for="">PUNTAJE: </label>
+            <label style="font-size: larger;" for="">PUNTAJE: {{puntaje}}</label>
         </div>
     </div>
     <br><br>
     {% load social_share %}
     <div class="compartir_resultado" style="text-align:center;">
-        {% post_to_twitter "¡Conseguí [puntaje] puntos en Matanga!" '' "¡Postear en Twitter!" %}
-        {% post_to_reddit "¡Conseguí [puntaje] puntos en Matanga!" '' "¡Postear en Reddit!" %}
+        {% post_to_twitter "¡Conseguí {{puntaje}} puntos en Matanga!" '' "¡Postear en Twitter!" %}
+        {% post_to_reddit "¡Conseguí {{puntaje}} puntos en Matanga!" '' "¡Postear en Reddit!" %}
     </div>
     <br>
     <div style="text-align: center;">

@@ -31,9 +31,6 @@ def registro(request):
         context = {'form':form}
         return render(request, 'registro.html', context)
 
-
-
-
     
 def cerrarSesion(request):
     logout(request)
@@ -42,8 +39,6 @@ def cerrarSesion(request):
 def recuperar(request):
     template = loader.get_template('recuperar.html')
     return HttpResponse(template.render({}, request))
-
-
 
 
 @login_required(login_url='inicio')
@@ -112,9 +107,6 @@ def admin(request):
     return render(request, 'admin.html', context)
 
 
-
-
-
 @login_required(login_url='inicio')
 def estadisticas(request):
     if not request.user.is_superuser:
@@ -122,18 +114,6 @@ def estadisticas(request):
     participantes = User.objects.order_by('username') #Con order_by() ordené los objetos en orden alfabetico, pero para obtenerlos también puede usarse all()
     context = {'participantes':participantes}
     return render(request, 'estadisticas.html', context)
-
-
-
-
-
-@login_required(login_url='inicio')
-def derrota(request):
-    template = loader.get_template('derrota.html')
-    return HttpResponse(template.render({}, request))
-
-
-
 
 
 def inicio(request):
@@ -162,10 +142,8 @@ def inicio(request):
                 messages.info(request, 'Nombre de usuario o contraseña incorrectos')
                 return render(request, 'inicio.html', {})
 
-
         context={}
         return render(request, 'inicio.html', context)
-
 
 
 @login_required(login_url='inicio')
@@ -173,16 +151,14 @@ def mapa(request, id_usuario):
     usuario = request.user.id
     user_id = User.objects.get(id = 5).id
     
-    if request.method == 'POST':        
+    if request.method == 'POST':
+        print("FORM de mapa")
         form = FormPartida(request.POST) 
         form2 = FormFecha(request.POST) #Creará automáticamente fecha y hora en tabla fecha       
         
         if form.is_valid(): #Utilicé un solo if para ambos form
             form2 = form2.save(commit=False)
             form2.save()
-
-            
-
 
             form = form.save(commit=False)
             form.personaje = request.POST.get('personaje')
@@ -197,7 +173,6 @@ def mapa(request, id_usuario):
             id_part = form.id #Cada partida se guardará en tabla y contendrá datos de usuario, fecha, puntaje, etc 
             jugada = str(id_part)
             return redirect("/juego/" + jugada)
-
  
     context = {
             'usuario': usuario,
@@ -316,18 +291,29 @@ def juego(request, id_partida):
                 'categoria': categoria, 
                 'pregunta': pregunta}
 
-    return render(request, 'juego.html', context) 
-    
-
-
-
+    return render(request, 'juego.html', context)
 
 @login_required(login_url='inicio')
 def ranking(request):
-    template = loader.get_template('ranking.html')
-    return HttpResponse(template.render({}, request))
+    context = {}
+    return render(request, 'ranking.html', context)
 
 @login_required(login_url='inicio')
-def victoria(request):
-    template = loader.get_template('victoria.html')
-    return HttpResponse(template.render({}, request)) 
+def victoria(request, id_partida):
+    partida = Partida.objects.get(id=id_partida)
+    puntaje = partida.puntaje_juego
+
+    context = {
+        'puntaje':puntaje,
+    }
+    return render(request, 'victoria.html', context)
+
+@login_required(login_url='inicio')
+def derrota(request, id_partida):
+    partida = Partida(id=id_partida)
+    puntaje = partida.puntaje_juego
+
+    context = {
+        'puntaje':puntaje,
+    }
+    return render(request, 'derrota.html', context)

@@ -45,7 +45,22 @@ class Quiz(models.Model):
     correcto_5= models.BooleanField(default=False)
 
     def __str__(self):
-            return str(self.pregunta)
+        return str(self.pregunta)
+
+    def get_correct_answer(self):
+        correct_answers = []
+        if self.correcto_1:
+            correct_answers.append(self.respuesta_1)
+        if self.correcto_2:
+            correct_answers.append(self.respuesta_2)
+        if self.correcto_3:
+            correct_answers.append(self.respuesta_3)
+        if self.correcto_4:
+            correct_answers.append(self.respuesta_4)
+        if self.correcto_5:
+            correct_answers.append(self.respuesta_5)
+
+        return correct_answers
 
 
 class Dificultad(models.Model):
