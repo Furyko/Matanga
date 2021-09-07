@@ -229,6 +229,9 @@ def juego(request, id_partida):
             return redirect('/victoria/'+str(id_part))
         print("preguntas_restantes tras restar:",partida.preguntas_restantes)
 
+        preguntas_rest = partida.preguntas_restantes -1
+        puntaje = partida.puntaje_juego
+
         categorias = Categoria.objects.all()
 
         # SELECCIÓN CATEGORÍA
@@ -324,7 +327,10 @@ def juego(request, id_partida):
                     'cantidad_respuestas': cantidad_respuestas,
                     'pregunta_random':pregunta_random,
                     'categoria': categoria, 
-                    'pregunta': pregunta}
+                    'pregunta': pregunta,
+                    'preguntas_rest':preguntas_rest,
+                    'puntaje':puntaje,
+                    }
 
         return render(request, 'juego.html', context)
     else:
@@ -415,6 +421,9 @@ def juego(request, id_partida):
         for indice in range(cantidad_respuestas):
             respuestas[indice] = (ordinales_dificil[indice], respuestas_random[indice], opciones_random[indice])
 
+        preguntas_rest = partida.preguntas_restantes -1
+        puntaje = partida.puntaje_juego
+
         #Eliminar a lo ultimo lo q no sirve de contexto
         context = { #'form': form, 
                     'respuestas': respuestas, 
@@ -425,7 +434,10 @@ def juego(request, id_partida):
                     'cantidad_respuestas': cantidad_respuestas,
                     'pregunta_random':pregunta_random,
                     'categoria': categoria, 
-                    'pregunta': pregunta}
+                    'pregunta': pregunta,
+                    'preguntas_rest':preguntas_rest,
+                    'puntaje':puntaje,
+                    }
 
         return render(request, 'juego.html', context)
 

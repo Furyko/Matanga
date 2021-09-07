@@ -6,7 +6,7 @@
     <div style="text-align:center">
         <div class="victoria">
             <br>
-            <label for="formFile" class="form-label">¡GANASTE!</label>
+            <label for="formFile" class="form-label">¡TERMINASTE!</label>
         </div>
             <label style="font-size: larger;" for="">PUNTAJE: {{puntaje}}</label>
         </div>
@@ -21,6 +21,10 @@
     <div style="text-align: center;">
         <form action="{% url 'ranking' %}">
             <input style="font-size: large" type="submit" class="btn-danger" value="RANKING">
+        </form>
+        <br>
+        <form action="{% url 'inicio' %}">
+            <input style="font-size: large" type="submit" class="btn-danger" value="MENU PRINCIPAL">
         </form>
     </div>
     <br><br><br><br>

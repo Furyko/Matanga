@@ -9,7 +9,7 @@
     <label for="formFile" class="form-label">CATEGORÍA: {{categoria}}</label>
     <br> 
     <div id="reloj">
-      Te quedan: 10 00 seg
+      Tiempo
     </div>
     <br>
     <label for="formFile" class="form-label"><h4>¡Respondé rápido!</h4></label>
@@ -19,7 +19,7 @@
     Cantidad preguntas: {{cantidad_respuestas}}
     -->
     <br>
-    <form method="POST" action="">
+    <form id="form_respuesta" method="POST" action="">
       {% csrf_token %}
       <table class="table">
         {% for key,value in respuestas.items %}
@@ -33,18 +33,36 @@
           </tbody>
           {% endfor %}
         </div>
-        <br>    
+        <br>
       </table>
     <br>
+    <input id='timer' type='hidden' name="timer" value="">
     <button class="listo" type="submit">¡Estoy seguro!</button>
     </form>
     <div class="jugador">
         <!-- 
         Vida: {{usuario.id_dificultad.vida}}
         <br>
-        Puntaje: {{usuario.puntaje_juego}}
         -->
+        <div class="feedback">Puntaje: {{puntaje}}</div>
+        <div class="feedback">Preguntas restantes: {{preguntas_rest}}</div>
     </div>
   </div>
+  <script>
+    const reloj = document.getElementById('reloj')
+    const timer = document.getElementById('timer')
+
+    segundos = 30
+    setInterval(() => {
+        segundos -= 1
+        reloj.innerHTML = "<b>Quedan " + segundos + " segundos</b>"
+        timer.value = segundos
+
+        if (segundos === 0) {
+          document.getElementById('form_respuesta').submit();
+          reloj.innerHTML = "<b>¡Tiempo!</b>"
+        }
+    }, 1000)
+</script>
 </body>
 {% endblock %}
