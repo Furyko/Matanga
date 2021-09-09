@@ -1,3 +1,4 @@
+from django.forms import formsets
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, request
 from django.template import loader
@@ -149,14 +150,15 @@ def inicio(request):
 @login_required(login_url='inicio')
 def mapa(request, id_usuario):
     usuario = request.user.id
-    user_id = User.objects.get(id = 5).id
     
     if request.method == 'POST':
         print("FORM de mapa")
         form = FormPartida(request.POST) 
         form2 = FormFecha(request.POST) #Creará automáticamente fecha y hora en tabla fecha       
         
+        print("Error:",form.errors)
         if form.is_valid(): #Utilicé un solo if para ambos form
+            print("Forma valida")
             form2 = form2.save(commit=False)
             form2.save()
 
@@ -183,6 +185,9 @@ def mapa(request, id_usuario):
             id_part = form.id #Cada partida se guardará en tabla y contendrá datos de usuario, fecha, puntaje, etc 
             jugada = str(id_part)
             return redirect("/juego/" + jugada)
+        else:
+            print("Forma no valida")
+            print("Error:", form.errors)
  
     context = {
             'usuario': usuario,
