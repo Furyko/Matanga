@@ -180,6 +180,7 @@ def mapa(request, id_usuario):
             elif request.POST.get('dificultad') == "3":
                 form.preguntas_restantes = 15
             print("Preguntas restantes:", form.preguntas_restantes)
+            form.id_usuario = User(id=1) #Tras encontrar el error, esto debe ser reemplazado
             form.save()
 
             id_part = form.id #Cada partida se guardará en tabla y contendrá datos de usuario, fecha, puntaje, etc 
