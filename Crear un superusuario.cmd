@@ -1,0 +1,2 @@
+cd Matanga_project
+python manage.py createsuperuser
