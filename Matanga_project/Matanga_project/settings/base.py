@@ -76,14 +76,35 @@ WSGI_APPLICATION = 'Matanga_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+#=========PostgreSQL Database Configuration=========#
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'matanga',
+#        'USER': 'postgres',
+#        'PASSWORD': 'postgres',
+#        'HOST': 'localhost',
+#        'PORT': 5432,
+#    }
+#}
+
+#===========MySql Database Configuration============#
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',
+#        'NAME': 'Matanga',
+#        'USER': 'root',
+#        'PASSWORD': 'password',
+#        'HOST': 'localhost',
+#        'PORT': '3306',
+#    }
+#}
+
+#===========SQLite Database Configuration===========#
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'matanga',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': 5432,
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

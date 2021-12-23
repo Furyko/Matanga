@@ -1,0 +1,31 @@
+{% extends 'templates/base.html' %}
+
+{% block content %}
+<head>
+    <style>
+        .cuadro_mensaje_de_error {
+            border: 2px solid black;
+            background-color: gray;
+        }
+        .mensaje_de_error {
+            text-align: center;
+            font-size: 24px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <br><br><br><br><br><br><br><br><br><br><br>
+    <div class="cuadro_mensaje_de_error">
+        <div class="mensaje_de_error">
+            {{mensaje}}
+        </div>
+    </div>
+    <br><br>
+    <div style="text-align: center;">
+        <form action="{% url 'inicio' %}">
+            <input style="font-size: large" type="submit" class="btn btn-danger" value="VOLVER">
+        </form>
+    </div>
+</body>
+{% endblock %}
