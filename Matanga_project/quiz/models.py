@@ -72,10 +72,10 @@ class Dificultad(models.Model):
 
 class Usuario(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    puntaje_maximo = models.IntegerField(blank=True, null=True)
+    puntaje_maximo = models.IntegerField(default=0, blank=True, null=True)
 
     def __str__(self):
-        return self.user
+        return str(self.user)
 
 @receiver(post_save, sender=User)
 def create_user_usuario(sender, instance, created, **kwargs):

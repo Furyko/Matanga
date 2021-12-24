@@ -212,7 +212,6 @@ def juego(request, id_partida):
     if request.method == "POST":
         print("Se recibió POST")
         ask = request.POST
-        print(ask)
         if "True" in ask and "False" in ask:
             print("Hubo respuestas correctas e incorrectas")
             print("- 1 punto")
@@ -225,9 +224,13 @@ def juego(request, id_partida):
         partida.preguntas_restantes -= 1
         partida.save()
         id_part = partida.id
+        id_usuario = request.user.id
         if partida.preguntas_restantes <= 0:
-            if partida.puntaje_juego > partida.puntaje_maximo: #Si el puntaje del jugador es mayor al puntaje maximo, actualiza el puntaje maximo.
+            user = User.objects.get(pk=id_usuario)
+            if partida.puntaje_juego > user.usuario.puntaje_maximo: #Si el puntaje del jugador es mayor al puntaje maximo, actualiza el puntaje maximo.
                 partida.puntaje_maximo = partida.puntaje_juego
+                user.usuario.puntaje_maximo = partida.puntaje_juego
+                user.save()
             return redirect('/victoria/'+str(id_part))
         preguntas_rest = partida.preguntas_restantes -1
         puntaje = partida.puntaje_juego
@@ -359,10 +362,7 @@ def juego(request, id_partida):
 
 @login_required(login_url='inicio')
 def ranking(request):
-    #user = User.objects.get(pk=1)
-    #user.usuario.puntaje_maximo = 10
-    #user.save()
-    usuarios = User.objects.all()
+    usuarios = Usuario.objects.all().order_by("-puntaje_maximo")
     print("usuarios: ", usuarios)
     context = {
         "usuarios": usuarios
