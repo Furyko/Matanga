@@ -1,67 +1,77 @@
 {% extends 'templates/base.html' %}
 
-
 {% block content %}
 <head>
-    <br><br><br><br><br><br><br>
     <style>
         .mb-3 input {
             font-size: 100%;
             width: 400px;
             height: 40px;
-            background-color: rgb(201, 201, 201);
+            background-color: rgb(255, 255, 255);
+        }
+        .btn_registro {
+            font-size: 100%;
+            width: 150px;
+            height: 30px;
+        }
+        .form_errors {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: left;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div style="text-align:center">
-    <form method="POST" action="">
-        {% csrf_token %}
-        <label for="formFile" class="form-label">Los campos con * son obligatorios</label>
-        <div class="mb-3">
-            <label class="form-label">*</label>
-            {{form.username}}
-        </div>
-        <br>
-        <div class="mb-3">
-            <label class="form-label">*</label>
-            {{form.email}}
-        </div>
-        <br>
-        <div class="mb-3">
-            <label class="form-label">*</label>
-            {{form.password1}}
-        </div>
-        <br>
-        <div class="mb-3">
-            <label class="form-label">*</label>
-            {{form.password2}}
-        </div>
-        
-        <br>
-        <input style="font-size: large;" type="submit" name="Create" class="btn btn-danger" value="CONFIRMAR">
-    </form>
-    {{form.errors}}
-    <form action="{% url 'inicio' %}">
-        <br>
-        <input style="font-size: large;" type="submit" class="btn btn-danger" value="Iniciar sesión">
-    </form>
     <br><br><br><br><br><br>
-    <!--Este script se encarga de definir los placeholder de los input-->
-    <script>
-        var form_fields = document.getElementsByTagName('input')
-        form_fields[1].placeholder="USUARIO";
-        form_fields[1].style="text-align:center";
-        form_fields[2].placeholder="EMAIL";
-        form_fields[2].style="text-align:center";
-        form_fields[3].placeholder="CLAVE";
-        form_fields[3].style="text-align:center";
-        form_fields[4].placeholder="REPETIR CLAVE";
-        form_fields[4].style="text-align:center";
-
-        for (var field in form_fields){
-            form_fields[field].className += ' form-control'
-        }
-    </script>
+    <div style="text-align:center;">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <p style="font-weight: bold;">Los campos con "*" son obligatorios</p>
+            <div class="mb-3">
+                <label class="form-label">*</label>
+                {{form.username}}
+            </div>
+            <br>
+            <div class="mb-3">
+                <label class="form-label">*</label>
+                {{form.email}}
+            </div>
+            <br>
+            <div class="mb-3">
+                <label class="form-label">*</label>
+                {{form.password1}}
+            </div>
+            <br>
+            <div class="mb-3">
+                <label class="form-label">*</label>
+                {{form.password2}}
+            </div>
+            <br>
+            <input style="font-size: large;" type="submit" name="Create" class="btn btn-danger btn_registro" value="Crear">
+        </form>
+        <div class="form_errors">
+            <div><p>{{form.errors}}</p></div>
+        </div>
+        <form action="{% url 'inicio' %}">
+            <input style="font-size: large;" type="submit" class="btn btn-danger btn_registro" value="Volver">
+        </form>
+        <script>
+            /*Este script se encarga de definir los placeholder de los input*/
+            var form_fields = document.getElementsByTagName('input')
+            form_fields[1].placeholder="USUARIO";
+            form_fields[1].style="text-align:center";
+            form_fields[2].placeholder="EMAIL";
+            form_fields[2].style="text-align:center";
+            form_fields[3].placeholder="CLAVE";
+            form_fields[3].style="text-align:center";
+            form_fields[4].placeholder="REPETIR CLAVE";
+            form_fields[4].style="text-align:center";
+            for (var field in form_fields){
+                form_fields[field].className += ' form-control'
+            }
+        </script>
+    </div>
 </body>
 {% endblock %}

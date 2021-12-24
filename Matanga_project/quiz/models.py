@@ -1,6 +1,10 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.fields import CharField, IntegerField
 from django.conf import settings
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Partida(models.Model):
     puntaje_maximo = models.IntegerField(blank=True, null=True)
@@ -65,3 +69,21 @@ class Dificultad(models.Model):
 
     def __str__(self):
         return self.informacion + str(self.vida) + str(self.tiempo) + str(self.cant_respuestas)
+
+class Usuario(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    puntaje_maximo = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return self.user
+
+@receiver(post_save, sender=User)
+def create_user_usuario(sender, instance, created, **kwargs):
+    if created:
+        Usuario.objects.create(user=instance)
+    print("Usuario nuevo creado")
+
+@receiver(post_save, sender=User)
+def save_user_usuario(sender, instance, **kwargs):
+    instance.usuario.save()
+    print("Usuario nuevo guardado")

@@ -1,55 +1,60 @@
 {% extends 'templates/base.html' %}
 
-
 {% block content %}
-
-<div src="static 'help_btn.png'"></div>    
-  <br><br><br><br><br><br><br>
-  <div style="text-align:center">
-    <style>
-        .recuadro {
-            font-size: 200%;
-            width: 500px;
-            height: 40px;
-            padding: 20px;
-            margin: 20px;
-            background-color: rgb(201, 201, 201);
-            position: relative;
-            left: 550px;
-        }
-    </style>
-    <h1>PODIO</h1>
-    <br>
-    <div class="recuadro">
-      <label class="form-label">1...........................</label>
-      <label style="float: right;" for="">Usuario</label>
+<head>
+  <style>
+    .recuadro {
+        font-size: 200%;
+        width: 500px;
+        height: 40px;
+        padding: 20px;
+        margin: 12px;
+        background-color: rgb(201, 201, 201);
+    }
+    .recuadro_referencias {
+        font-size: 200%;
+        width: 500px;
+        height: 40px;
+        padding: 20px;
+        margin: 12px;
+        border: 2px solid black;
+        left: 550px;
+    } 
+    .ranking_column {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: left;
+    }
+    .btn_registro {
+      font-size: 100%;
+      width: 180px;
+      height: 30px;
+    }
+  </style>
+</head>
+<body> 
+    <br><br><br><br><br><br>
+    <div class="ranking_column" style="text-align:center;">
+      <h1>PODIO</h1>
+      <div class="recuadro_referencias">
+        <label style="float: left;">Nombre</label>
+        <label style="float: right;">Puntaje</label>
+      </div>
+      {% for usuario in usuarios %}
+      <div class="recuadro">
+        <label style="float: left;">{{usuario.username}}</label>
+        <label style="float: right;">{{usuario.usuario.puntaje_maximo}}</label>
+      </div>
+      {% endfor %}    
+      <br><br>
+      <form action="{% url 'inicio' %}">
+        <input style="font-size: large;" type="submit" class="btn btn-danger btn_registro" value="MENÚ PRINCIPAL">
+      </form>
     </div>
-
-    <div class="recuadro">
-      <label class="form-label">2...........................</label>
-      <label style="float: right;" for="">Usuario</label>
-    </div>
-
-    <div class="recuadro">
-      <label class="form-label">3...........................</label>
-      <label style="float: right;" for="">Usuario</label>
-    </div>
-
-    <div class="recuadro">
-      <label class="form-label">4...........................</label>
-      <label style="float: right;" for="">Usuario</label>
-    </div>
-
-    <div class="recuadro">
-      <label class="form-label">5...........................</label>
-      <label style="float: right;" for="">Usuario</label>
-    </div>      
-    <br>
-    <form action="{% url 'inicio' %}">
-      <input style="font-size: large;" type="submit" class="btn btn-danger" value="MENÚ PRINCIPAL">
-    </form>
-</div>
-<br><br><br><br><br><br>
+  <br><br>
+</body>
 
 
 {% endblock %}

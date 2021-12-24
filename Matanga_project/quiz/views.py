@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 from .forms import *
 from .models import *
 import random
-from django.contrib.auth.models import User
 
 def registro(request):
     if request.user.is_authenticated:
@@ -343,12 +342,12 @@ def juego(request, id_partida):
             respuestas[indice] = (ordinales_dificil[indice], respuestas_random[indice], opciones_random[indice])
         preguntas_rest = partida.preguntas_restantes -1
         puntaje = partida.puntaje_juego
-        context = { #'form': form, 
-                    'respuestas': respuestas, 
-                    'opciones_random': opciones_random, 
-                    'pregunta_id': pregunta_id ,
-                    'respuestas_random':respuestas_random, 
-                    'indice_respuestas': indice_respuestas, 
+        context = { #'form': form,
+                    'respuestas': respuestas,
+                    'opciones_random': opciones_random,
+                    'pregunta_id': pregunta_id,
+                    'respuestas_random':respuestas_random,
+                    'indice_respuestas': indice_respuestas,
                     'cantidad_respuestas': cantidad_respuestas,
                     'pregunta_random':pregunta_random,
                     'categoria': categoria,
@@ -360,7 +359,14 @@ def juego(request, id_partida):
 
 @login_required(login_url='inicio')
 def ranking(request):
-    context = {}
+    #user = User.objects.get(pk=1)
+    #user.usuario.puntaje_maximo = 10
+    #user.save()
+    usuarios = User.objects.all()
+    print("usuarios: ", usuarios)
+    context = {
+        "usuarios": usuarios
+    }
     return render(request, 'ranking.html', context)
 
 @login_required(login_url='inicio')

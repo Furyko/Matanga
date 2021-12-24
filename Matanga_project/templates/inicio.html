@@ -1,6 +1,5 @@
 {% extends 'templates/base.html' %}
 
-
 {% block content %}
 {% load static %}
 <head>
@@ -9,59 +8,49 @@
             font-size: 100%;
             width: 300px;
             height: 40px;
-            background-color: rgb(201, 201, 201);
-            background-image: url(../static/Logo.png);
+            background-color: rgb(255, 255, 255);
+        }
+        .btn_inicio {
+            font-size: 100%;
+            width: 150px;
+            height: 30px;
         }
     </style>
     <td height="380" colspan="3" valign="middle" class="bb">
-    </td>
-
-    <td height="380" colspan="3" valign="middle" class="bb">
         <audio src="{% static 'Fondo.mp3' %}" id="miAudio"></audio>
     </td>
-
-    <script>
-        document.getElementById("miAudio").play();
-    </script>
-
-    <div src="{% static 'help_btn.png' %}"></div> 
-    
+    <script>document.getElementById("miAudio").play();</script>
     <br><br><br>
-    <div style="text-align:center">
-        <img src="{% static 'Logo.png' %}" width="524" height="348" />
-        <h1 style="text-align:center" class='text-center'>MATANGA</h1> 
-    </div>
 </head>
-
-<div style="text-align:center" class="listo">
-    <form method="POST" action="">
-        {% csrf_token %}
-        <div  class="mb-3">
-            <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" name="username" placeholder="USUARIO" required>
-        </div>
-        <br>
-        <div class="mb-3">
-            <input type="password" style="text-align:center" id="disabledTextInput" class="form-control" name="password" placeholder="CLAVE" required>
-        </div>
-
-        <br>
-        <input type="submit" class="btn btn-danger" value="Ingresar">
-        <br><br>
-      </form>
-      {% for message in messages %}
-        <p id="messages">{{message}}</p>
-      {% endfor %}
-      <form action="{% url 'registro' %}">
-        <input type="submit" class="btn btn-danger" value="Registrarse">
-      </form>
-      <br>
-      <!--<form action="{% url 'recuperar' %}">
-        <input type="submit" class="btn btn-danger" value="Recuperar contraseña">
-      </form>-->
-      
-</div>
-<br>
-<br><br><br><br>
-
+<body>
+    <div style="text-align:center">
+        <img src="{% static 'Logo.png' %}" width="524" height="348"/>
+    </div>
+    <div style="text-align:center">
+        <h1 style="text-align:center">MATANGA</h1>
+    </div>
+    <div style="text-align:center" class="listo">
+        {% for message in messages %}
+            <p id="messages">{{message}}</p>
+        {% endfor %}
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="mb-3">
+                <input type="text" style="text-align:center" id="disabledTextInput" class="form-control" name="username" placeholder="USUARIO" required>
+            </div>
+            <br>
+            <div class="mb-3">
+                <input type="password" style="text-align:center" id="disabledTextInput" class="form-control" name="password" placeholder="CLAVE" required>
+            </div>
+            <br>
+            <input type="submit" class="btn btn-danger btn_inicio" value="Ingresar">
+            <br><br>
+        </form>
+        <form action="{% url 'registro' %}">
+            <input type="submit" class="btn btn-danger btn_inicio" value="Registrarse">
+        </form>
+    </div>
+    <br><br><br><br>
+</body>
 
 {% endblock %}

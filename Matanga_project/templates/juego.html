@@ -2,6 +2,15 @@
 
 
 {% block content %}
+<head>
+  <style>
+    .btn_juego {
+            font-size: 100%;
+            width: 200px;
+            height: 40px;
+        }
+  </style>
+</head>
 <body>
   <div src="static 'help_btn.png'"></div>
   <br><br><br><br><br><br><br>
@@ -13,12 +22,7 @@
     </div>
     <br>
     <label for="formFile" class="form-label"><h4>¡Respondé rápido!</h4></label>
-    <h3>{{pregunta}}</h3> 
-    <!--
-      pregunta_id : {{pregunta_id}} 
-    Cantidad preguntas: {{cantidad_respuestas}}
-    -->
-    <br>
+    <h3>{{pregunta}}</h3>
     <form id="form_respuesta" method="POST" action="">
       {% csrf_token %}
       <table class="table">
@@ -37,7 +41,7 @@
       </table>
     <br>
     <input id='timer' type='hidden' name="timer" value="">
-    <button class="listo" type="submit">¡Estoy seguro!</button>
+    <button class="listo btn_juego" type="submit">¡Estoy seguro!</button>
     </form>
     <div class="jugador">
         <!-- 
@@ -51,18 +55,16 @@
   <script>
     const reloj = document.getElementById('reloj')
     const timer = document.getElementById('timer')
-
     segundos = 30
     setInterval(() => {
         segundos -= 1
         reloj.innerHTML = "<b>Quedan " + segundos + " segundos</b>"
         timer.value = segundos
-
         if (segundos === 0) {
           document.getElementById('form_respuesta').submit();
           reloj.innerHTML = "<b>¡Tiempo!</b>"
         }
     }, 1000)
-</script>
+  </script>
 </body>
 {% endblock %}

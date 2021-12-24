@@ -1,6 +1,5 @@
 {% extends 'templates/base.html' %}
 
-
 {% block content %}
 
 <head>
@@ -34,6 +33,11 @@
       width: 150px;
       text-align: center;
     }
+    .btn_admin {
+            font-size: 100%;
+            width: 150px;
+            height: 30px;
+        }
   </style>
 </head>
 <body>
@@ -42,8 +46,7 @@
     <form method="POST" action="" id="checkGroup">
     {% csrf_token %}
     <div class="opcion">
-      <label id="campos_obligatorios" class="form-label">Los campos con * son obligatorios</label>
-      <br>
+      <p id="campos_obligatorios" style="font-weight: bold;">Los campos con "*" son obligatorios</p>
       <label class="form-label">*</label>
       <select style="font-size: 100%; width: 400px; height: 40px" name="categoria" id="categoria" required>
         <option value=""> CATEGORÍA </option>
@@ -98,12 +101,12 @@
       <input type="checkbox" name="es_correcta_5" class="form-checkbox">
     </div>
     <br>
-    <input style="font-size: large;" type="submit" name="btn_confirmar" class="btn btn-danger" value="CONFIRMAR">
+    <input style="font-size: large;" type="submit" name="btn_confirmar" class="btn btn-danger btn_admin" value="CONFIRMAR">
     <br>
     <br>
   </form>
   <form action="{% url 'mapa' %}">
-    <input style="font-size: large;" type="submit" class="btn btn-danger" value="JUGAR">
+    <input style="font-size: large;" type="submit" class="btn btn-danger btn_admin" value="JUGAR">
   </form>
   </div>
   <div class="preguntas_titulo" style="margin-top: 100px;">
@@ -225,20 +228,20 @@
     </div>
   </div>
   {% endfor %}
-<br><br><br><br><br><br>
-<script>
-/*Script que devuelve un mensaje si falta marcar aunque sea una respuesta como correcta:*/
-$('#checkGroup').submit(function(e){
-    e.preventDefault();
-    var ck_box = $('input[type="checkbox"]:checked').length;
-    
-    if(ck_box === 0){
-      alert("Debes marcar al menos una respuesta como correcta.");
-    } else {
-      document.getElementById('checkGroup').submit();
-    }
-});
-</script>
+  <br><br><br><br><br><br>
+  <script>
+  /*Script que devuelve un mensaje si falta marcar aunque sea una respuesta como correcta:*/
+  $('#checkGroup').submit(function(e){
+      e.preventDefault();
+      var ck_box = $('input[type="checkbox"]:checked').length;
+      
+      if(ck_box === 0){
+        alert("Debes marcar al menos una respuesta como correcta.");
+      } else {
+        document.getElementById('checkGroup').submit();
+      }
+  });
+  </script>
 </body>
 
 {% endblock %}
