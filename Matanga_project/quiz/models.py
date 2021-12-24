@@ -1,10 +1,6 @@
 from django.db import models
-from django.db.models.fields import CharField, DateField, DateTimeField, IntegerField
-from django.utils import timezone
-from django.contrib.auth.models import User
+from django.db.models.fields import CharField, IntegerField
 from django.conf import settings
-import datetime
-import threading
 
 class Partida(models.Model):
     puntaje_maximo = models.IntegerField(blank=True, null=True)
