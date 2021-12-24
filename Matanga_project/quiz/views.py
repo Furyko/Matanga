@@ -240,6 +240,7 @@ def juego(request, id_partida):
             print("No se encontaron preguntas en la base de datos.")
             return redirect('/error/')
         pregunta_base = Quiz.objects.get(id=pregunta_random + 1)
+        categoria = pregunta_base.id_categoria
         pregunta_elegida = pregunta_base #PARA PASAR INDEX RESTAR 1
         pregunta = pregunta_elegida.pregunta
         pregunta_id = pregunta_elegida.id
@@ -287,7 +288,7 @@ def juego(request, id_partida):
                     'indice_respuestas': indice_respuestas,
                     'cantidad_respuestas': cantidad_respuestas,
                     'pregunta_random':pregunta_random,
-                    #'categoria': categoria,
+                    'categoria': categoria,
                     'pregunta': pregunta,
                     'preguntas_rest':preguntas_rest,
                     'puntaje':puntaje,
@@ -295,7 +296,6 @@ def juego(request, id_partida):
         return render(request, 'juego.html', context)
     else:
         print("No se recibió POST")
-        # SELECCIÓN CATEGORÍA
         pregunta = Quiz.objects.all().count()
         try:
             pregunta_random = random.choice(range(pregunta))
@@ -303,6 +303,7 @@ def juego(request, id_partida):
             print("No se añadieron preguntas aún.")
             return redirect('/error/')
         pregunta_base = Quiz.objects.get(id=pregunta_random + 1)
+        categoria = pregunta_base.id_categoria
         pregunta_elegida = pregunta_base #PARA PASAR INDEX RESTAR 1
         pregunta = pregunta_elegida.pregunta
         pregunta_id = pregunta_elegida.id
@@ -350,7 +351,7 @@ def juego(request, id_partida):
                     'indice_respuestas': indice_respuestas, 
                     'cantidad_respuestas': cantidad_respuestas,
                     'pregunta_random':pregunta_random,
-                    #'categoria': categoria,
+                    'categoria': categoria,
                     'pregunta': pregunta,
                     'preguntas_rest':preguntas_rest,
                     'puntaje':puntaje,
