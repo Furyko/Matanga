@@ -67,8 +67,5 @@ class Dificultad(models.Model):
     tiempo = IntegerField(blank=True, null=True)
     cant_respuestas = IntegerField(blank=True, null=True)
 
-    def crear_dificultades(self):
-        print(Dificultad.objects.all())
-
     def __str__(self):
         return self.informacion + str(self.vida) + str(self.tiempo) + str(self.cant_respuestas)

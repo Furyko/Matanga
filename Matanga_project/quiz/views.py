@@ -41,6 +41,24 @@ def admin(request):
     if request.user.is_authenticated:
         if not request.user.is_superuser:
             return redirect('inicio')
+    if Categoria.objects.all().count() != 7:
+        print("No se encontraron todas las categorias")
+        print("Creando categorías")
+        categoria_cultura = Categoria(categoria="CULTURA Y ARTE")
+        categoria_cultura.save()
+        categoria_historia = Categoria(categoria="HISTORIA")
+        categoria_historia.save()
+        categoria_deporte = Categoria(categoria="DEPORTE")
+        categoria_deporte.save()
+        categoria_geografia = Categoria(categoria="GEOGRAFÍA")
+        categoria_geografia.save()
+        categoria_economia = Categoria(categoria="ECONOMÍA")
+        categoria_economia.save()
+        categoria_educacion = Categoria(categoria="CIENCIA Y EDUCACIÓN")
+        categoria_educacion.save()
+        categoria_entretenimiento = Categoria(categoria="ENTRETENIMIENTO")
+        categoria_entretenimiento.save()
+        print("Categorías creadas")
     if request.method == "POST":
         categoria = request.POST.get('categoria')
         pregunta = request.POST.get('pregunta')
@@ -59,12 +77,10 @@ def admin(request):
             es_correcta_1 = True
         else: 
             es_correcta_1 = False
-
         if es_correcta_2 != None:
             es_correcta_2 = True
         else: 
             es_correcta_2 = False
-
         if es_correcta_3 != None:
             es_correcta_3 = True
         else: 
@@ -87,7 +103,10 @@ def admin(request):
         print(f"Respuesta 5: {respuesta5}. Es correcta: {es_correcta_5}")
         categoria_instancia = Categoria.objects.get(id=int(categoria))
         id_list = Quiz.objects.filter().values_list('id', flat=True) #Obtiene el id mas alto de la lista de objetos
-        max_id = (max(id_list)) + 1 #Suma 1 al id maximo de la lista de objetos
+        try:
+            max_id = (max(id_list)) + 1 #Suma 1 al id maximo de la lista de objetos
+        except:
+            max_id = 1 #Si la tabla está vacia, no podrá realizar el max(). En ese caso, el id maximo es 1
         quiz = Quiz(id=max_id, id_categoria=categoria_instancia, pregunta=pregunta, respuesta_1=respuesta1, correcto_1=es_correcta_1, respuesta_2=respuesta2, correcto_2=es_correcta_2, respuesta_3=respuesta3, correcto_3=es_correcta_3, respuesta_4=respuesta4, correcto_4=es_correcta_4, respuesta_5=respuesta5, correcto_5=es_correcta_5)
         print(quiz.id_categoria.id)
         quiz.save()
@@ -95,7 +114,6 @@ def admin(request):
     preguntas = Quiz.objects.all()
     context = {'preguntas':preguntas}
     return render(request, 'admin.html', context)
-
 
 @login_required(login_url='inicio')
 def estadisticas(request):
@@ -156,8 +174,7 @@ def mapa(request, id_usuario):
     if request.method == 'POST':
         print("FORM de mapa")
         form = FormPartida(request.POST) 
-        form2 = FormFecha(request.POST) #Creará automáticamente fecha y hora en tabla fecha       
-        print("Error:",form.errors)
+        form2 = FormFecha(request.POST) #Creará automáticamente fecha y hora en tabla fecha
         if form.is_valid(): #Utilicé un solo if para ambos form
             print("Forma valida")
             form2 = form2.save(commit=False)
@@ -196,17 +213,6 @@ def mapa(request, id_usuario):
 @login_required(login_url='inicio')
 def juego(request, id_partida):
     partida = Partida.objects.get(id=id_partida)
-
-    #user_id = Partida.objects.get(id= 5).id
-    
-    #if request.method == 'POST':
-    #    form = FormPartida(request.POST, instance=partida)
-    #    if form.is_valid():            
-    #        form.save()
-            #return redirect('mapa')
-    #else:
-    #    form = FormPartida(instance= partida)
-
     if request.method == "POST":
         print("Se recibió POST")
         ask = request.POST
@@ -226,38 +232,20 @@ def juego(request, id_partida):
         if partida.preguntas_restantes <= 0:
             if partida.puntaje_juego > partida.puntaje_maximo: #Si el puntaje del jugador es mayor al puntaje maximo, actualiza el puntaje maximo.
                 partida.puntaje_maximo = partida.puntaje_juego
-                print("Puntaje maximo:", partida.puntaje_maximo)
             return redirect('/victoria/'+str(id_part))
-        print("preguntas_restantes tras restar:",partida.preguntas_restantes)
         preguntas_rest = partida.preguntas_restantes -1
         puntaje = partida.puntaje_juego
-        categorias = Categoria.objects.all()
         # SELECCIÓN CATEGORÍA
-        #random básico
-        cantidad_cat = Categoria.objects.all().count() 
-        ubicacion_index = random.choice(range(cantidad_cat)) 
-        #Id categoria != index de categoría -> se corrige
-        ubicacion_cat_id = ubicacion_index +1
-        #Para CONTEXTO la cat segun su ID - No habrá problemas si se agrega una nueva cat luego
-        categoria = categorias.get(id=ubicacion_cat_id).categoria
-        # SELECCION PREGUNTAS de la CATEGORÍA RANDOM
-        quiz = Quiz.objects.all()
-        preguntas_cat = [] #Se guardan los id de toda pregunta de esa categoria
-        cada_quiz_id_cat = []
-        categorias_coincidentes = []
-        for cada_quiz in quiz:
-            #Iguala el id de categoría elegida al azar con la de lista de quiz
-            if cada_quiz.id_categoria.id == ubicacion_cat_id:
-                cada_quiz_id_cat.append(cada_quiz.id)
-                #Lista de id que tienen la misma categoría dentro de quiz
-                preguntas_cat.append(cada_quiz.id)
-                categorias_coincidentes.append(cada_quiz.id_categoria.id)
-        #Random de id de la misma categoria, y se guarda en pregunta
-        pregunta_random = random.choice(preguntas_cat)
-        pregunta_elegida = quiz[pregunta_random - 1] #PARA PASAR INDEX RESTAR 1 
+        pregunta = Quiz.objects.all().count()
+        try:
+            pregunta_random = random.choice(range(pregunta))
+        except:
+            print("No se encontaron preguntas en la base de datos.")
+            return redirect('/error/')
+        pregunta_base = Quiz.objects.get(id=pregunta_random + 1)
+        pregunta_elegida = pregunta_base #PARA PASAR INDEX RESTAR 1
         pregunta = pregunta_elegida.pregunta
         pregunta_id = pregunta_elegida.id
-        categoria_pregunta = pregunta_elegida.id_categoria.id
         #GET RESPUESTAS de la PREGUNTA de la CATEGORÍA RANDOM
         dificultades = Dificultad.objects.all()
         respuestas_totales_ord = [pregunta_elegida.respuesta_1, 
@@ -274,11 +262,11 @@ def juego(request, id_partida):
         ordinales = ['a)', 'b)', 'c)', 'd)', 'e)']
         #EN GENERACIÓN DE PARTIDAS SE DEBERÁ HACER UN IF AQUÍ
         #DIFICULTAD FÁCIL
-        #cantidad_respuestas = dificultades.get(id=1).cant_respuestas
+        cantidad_respuestas = dificultades.get(id=1).cant_respuestas
         #DIFICULTAD NORMAL
         #cantidad_respuestas = dificultades.get(id=2).cant_respuestas
         #DIFICULTAD DIFÍCIL
-        cantidad_respuestas = dificultades.get(id=3).cant_respuestas
+        #cantidad_respuestas = dificultades.get(id=3).cant_respuestas
         # ordinales según dificultad
         ordinales_dificil = ordinales[0:cantidad_respuestas]
         # generar respuestas aleatorias según cantidad dificultad
@@ -292,16 +280,17 @@ def juego(request, id_partida):
         respuestas = {} #Por último se sumará todo a un solo diccionario para usar en html
         for indice in range(cantidad_respuestas):
             respuestas[indice] = (ordinales_dificil[indice], respuestas_random[indice], opciones_random[indice])
-        #Eliminar a lo ultimo lo q no sirve de contexto
+        preguntas_rest = partida.preguntas_restantes -1
+        puntaje = partida.puntaje_juego
         context = { #'form': form, 
-                    'respuestas': respuestas, 
-                    'opciones_random': opciones_random, 
-                    'pregunta_id': pregunta_id ,
-                    'respuestas_random':respuestas_random, 
-                    'indice_respuestas': indice_respuestas, 
+                    'respuestas': respuestas,
+                    'opciones_random': opciones_random,
+                    'pregunta_id': pregunta_id,
+                    'respuestas_random':respuestas_random,
+                    'indice_respuestas': indice_respuestas,
                     'cantidad_respuestas': cantidad_respuestas,
                     'pregunta_random':pregunta_random,
-                    'categoria': categoria, 
+                    #'categoria': categoria,
                     'pregunta': pregunta,
                     'preguntas_rest':preguntas_rest,
                     'puntaje':puntaje,
@@ -309,37 +298,17 @@ def juego(request, id_partida):
         return render(request, 'juego.html', context)
     else:
         print("No se recibió POST")
-        categorias = Categoria.objects.all()
         # SELECCIÓN CATEGORÍA
-        #random básico
-        cantidad_cat = Categoria.objects.all().count()
+        pregunta = Quiz.objects.all().count()
         try:
-            ubicacion_index = random.choice(range(cantidad_cat))
+            pregunta_random = random.choice(range(pregunta))
         except:
             print("No se añadieron preguntas aún.")
             return redirect('/error/')
-        #Id categoria != index de categoría -> se corrige
-        ubicacion_cat_id = ubicacion_index +1
-        #Para CONTEXTO la cat segun su ID - No habrá problemas si se agrega una nueva cat luego
-        categoria = categorias.get(id=ubicacion_cat_id).categoria 
-        # SELECCION PREGUNTAS de la CATEGORÍA RANDOM
-        quiz = Quiz.objects.all()
-        preguntas_cat = [] #Se guardan los id de toda pregunta de esa categoria
-        cada_quiz_id_cat = []
-        categorias_coincidentes = []
-        for cada_quiz in quiz:
-            #Iguala el id de categoría elegida al azar con la de lista de quiz
-            if cada_quiz.id_categoria.id == ubicacion_cat_id:
-                cada_quiz_id_cat.append(cada_quiz.id)
-                #Lista de id que tienen la misma categoría dentro de quiz
-                preguntas_cat.append(cada_quiz.id)
-                categorias_coincidentes.append(cada_quiz.id_categoria.id)
-        #Random de id de la misma categoria, y se guarda en pregunta
-        pregunta_random = random.choice(preguntas_cat)
-        pregunta_elegida = quiz[pregunta_random - 1] #PARA PASAR INDEX RESTAR 1 
+        pregunta_base = Quiz.objects.get(id=pregunta_random + 1)
+        pregunta_elegida = pregunta_base #PARA PASAR INDEX RESTAR 1
         pregunta = pregunta_elegida.pregunta
         pregunta_id = pregunta_elegida.id
-        categoria_pregunta = pregunta_elegida.id_categoria.id
         #GET RESPUESTAS de la PREGUNTA de la CATEGORÍA RANDOM
         dificultades = Dificultad.objects.all()
         respuestas_totales_ord = [pregunta_elegida.respuesta_1, 
@@ -356,11 +325,11 @@ def juego(request, id_partida):
         ordinales = ['a)', 'b)', 'c)', 'd)', 'e)']
         #EN GENERACIÓN DE PARTIDAS SE DEBERÁ HACER UN IF AQUÍ
         #DIFICULTAD FÁCIL
-        #cantidad_respuestas = dificultades.get(id=1).cant_respuestas
+        cantidad_respuestas = dificultades.get(id=1).cant_respuestas
         #DIFICULTAD NORMAL
         #cantidad_respuestas = dificultades.get(id=2).cant_respuestas
         #DIFICULTAD DIFÍCIL
-        cantidad_respuestas = dificultades.get(id=3).cant_respuestas
+        #cantidad_respuestas = dificultades.get(id=3).cant_respuestas
         # ordinales según dificultad
         ordinales_dificil = ordinales[0:cantidad_respuestas]
         # generar respuestas aleatorias según cantidad dificultad
@@ -376,7 +345,6 @@ def juego(request, id_partida):
             respuestas[indice] = (ordinales_dificil[indice], respuestas_random[indice], opciones_random[indice])
         preguntas_rest = partida.preguntas_restantes -1
         puntaje = partida.puntaje_juego
-        #Eliminar a lo ultimo lo q no sirve de contexto
         context = { #'form': form, 
                     'respuestas': respuestas, 
                     'opciones_random': opciones_random, 
@@ -385,7 +353,7 @@ def juego(request, id_partida):
                     'indice_respuestas': indice_respuestas, 
                     'cantidad_respuestas': cantidad_respuestas,
                     'pregunta_random':pregunta_random,
-                    'categoria': categoria, 
+                    #'categoria': categoria,
                     'pregunta': pregunta,
                     'preguntas_rest':preguntas_rest,
                     'puntaje':puntaje,
