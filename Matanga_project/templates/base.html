@@ -19,7 +19,7 @@
         <style>
             .options_box{
                 display: none;
-                position: absolute;
+                position: fixed;
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
@@ -65,35 +65,37 @@
             <button onclick="hide_options_box()"><img src="{% static 'options_btn.png' %}" width="50" height="50"></button>
         </div>
         {% endif %}
-        <div class="info_box">
-            <div class="info_title"><span>¡Buenas, {{request.user}}!</span></div> <!--Aquí hay que hacer que muestre el nombre del usuario-->
-            <div class="info_list">
-                <div class="info"><span>Te voy a dar una introducción breve:</span></div>
-                <div class="info">Iniciá una partida y respondé las preguntas.</div>
-                <div class="info">Se te restará un punto por cada respuesta incorrecta.</div>
-                <div class="info">¡Pero no te preocupes!</div>
-                <div class="info">Sumarás un punto por cada respuesta correcta.</div>
-                <div class="info">Si en una pregunta respondés opciones correctas e incorrectas a la vez, tu puntaje no cambiará.</div>
-                <div class="info">¡Respondé todas las preguntas y ganá el juego!</div>
+        <div class="ventanas_modal">
+            <div class="info_box">
+                <div class="info_title"><span>¡Buenas, {{request.user}}!</span></div> <!--Aquí hay que hacer que muestre el nombre del usuario-->
+                <div class="info_list">
+                    <div class="info"><span>Te voy a dar una introducción breve:</span></div>
+                    <div class="info">Iniciá una partida y respondé las preguntas.</div>
+                    <div class="info">Se te restará un punto por cada respuesta incorrecta.</div>
+                    <div class="info">¡Pero no te preocupes!</div>
+                    <div class="info">Sumarás un punto por cada respuesta correcta.</div>
+                    <div class="info">Si en una pregunta respondés opciones correctas e incorrectas a la vez, tu puntaje no cambiará.</div>
+                    <div class="info">¡Respondé todas las preguntas y ganá el juego!</div>
+                </div>
+                <div class="ok_rules_btn"><button onclick="hide_info_box()">OK</button></div>
             </div>
-            <div class="ok_rules_btn"><button onclick="hide_info_box()">OK</button></div>
-        </div>
-        <div class="options_box">
-            <div class="options_title">
-                <span>Hola, {{request.user}}.</span>
-            </div>
-            {% if request.user.is_superuser %}
-            <div class="opciones_admin">
-                <p><a href="{% url 'admin' %}">Añadir preguntas</a></p>
-                <p><a href="{% url 'estadisticas' %}">Estadisticas</a></p>
-            </div>
-            {% endif %}
-            <div class="opciones_participante">
-                <p><a href="{% url 'inicio' %}">Menú principal</a></p>
-                <p><a href="{% url 'ranking' %}">Ranking</a></p>
-            </div>
-            <div class="logout_btn">
-                <p><span><a href="{% url 'cerrarSesion' %}">Cerrar Sesión</a></span></p>
+            <div class="options_box">
+                <div class="options_title">
+                    <span>Hola, {{request.user}}.</span>
+                </div>
+                {% if request.user.is_superuser %}
+                <div class="opciones_admin">
+                    <p><a href="{% url 'admin' %}">Añadir preguntas</a></p>
+                    <p><a href="{% url 'estadisticas' %}">Estadisticas</a></p>
+                </div>
+                {% endif %}
+                <div class="opciones_participante">
+                    <p><a href="{% url 'inicio' %}">Menú principal</a></p>
+                    <p><a href="{% url 'ranking' %}">Ranking</a></p>
+                </div>
+                <div class="logout_btn">
+                    <p><span><a href="{% url 'cerrarSesion' %}">Cerrar Sesión</a></span></p>
+                </div>
             </div>
         </div>
         <script>
