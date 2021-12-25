@@ -1,26 +1,24 @@
 {% extends 'templates/base.html' %}
 
-
 {% block content %}
 <head>
   <style>
     .btn_juego {
-            font-size: 100%;
-            width: 200px;
-            height: 40px;
-        }
+        font-size: 100%;
+        width: 200px;
+        height: 40px;
+    }
+    .juego {
+      margin-top: 50px;
+    }
   </style>
 </head>
 <body>
-  <div src="static 'help_btn.png'"></div>
-  <br><br><br><br><br><br><br>
-  <div class= "juego">
-    <label for="formFile" class="form-label">CATEGORÍA: {{categoria}}</label>
-    <br> 
+  <div class="juego">
+    <p>CATEGORÍA: {{categoria}}</p>
     <div id="reloj">
-      Tiempo
+      <p style="font-weight: bold;">¡Empieza!</p>
     </div>
-    <br>
     <label for="formFile" class="form-label"><h4>¡Respondé rápido!</h4></label>
     <h3>{{pregunta}}</h3>
     <form id="form_respuesta" method="POST" action="">
@@ -36,20 +34,16 @@
             </tr>
           </tbody>
           {% endfor %}
-        </div>
-        <br>
       </table>
-    <br>
     <input id='timer' type='hidden' name="timer" value="">
-    <button class="listo btn_juego" type="submit">¡Estoy seguro!</button>
+    <button class="btn_juego" type="submit">¡Estoy seguro!</button>
     </form>
     <div class="jugador">
-        <!-- 
-        Vida: {{usuario.id_dificultad.vida}}
-        <br>
-        -->
-        <div class="feedback">Puntaje: {{puntaje}}</div>
-        <div class="feedback">Preguntas restantes: {{preguntas_rest}}</div>
+      <!-- 
+      Vida: {{usuario.id_dificultad.vida}}
+      -->
+      <div class="feedback">Puntaje: {{puntaje}}</div>
+      <div class="feedback">Preguntas restantes: {{preguntas_rest}}</div>
     </div>
   </div>
   <script>

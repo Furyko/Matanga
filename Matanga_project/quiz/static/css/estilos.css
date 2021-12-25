@@ -9,17 +9,16 @@ body {
 }
 .juego {
     background: #e7b250;
-    height: 750px;
-    margin: 30px;
+    margin-top: 130px;
+    margin-left: 40px;
+    margin-right: 40px;
     padding: 30px;
     border: 5px solid black;
     position: relative;
     left: 0px;
-    top: -25px;
     text-align: center;
     font-size: 25px;
     font-weight: 500;
-    color: black;
 }
 input[type=checkbox] {
     transform: scale(1.5);
@@ -35,15 +34,6 @@ input[type=checkbox] {
     -o-transform: scale(7);
     -moz-transform: scale(7);
 }
-/*
-.listo {
-    zoom: 1;
-    transform: scale(1.5);
-    -ms-transform: scale(1.5);
-    -webkit-transform: scale(1.5);
-    -o-transform: scale(1.5);
-    -moz-transform: scale(1.5);
-}*/
 table {
     text-align: center;
     font-size: 30px;
@@ -148,6 +138,9 @@ table {
 .info_box .ok_rules_btn button:hover{
     background: white;
     color: black;
+}
+.juego button {
+    margin-top: 20px
 }
 .juego header {
     height: 80px;
