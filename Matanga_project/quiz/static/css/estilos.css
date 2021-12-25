@@ -3,13 +3,9 @@ body {
 }
 .mapa {
     background: #e7b250;
-    margin: 30px;
     padding: 30px;
+    margin-right: 40px;
     border: 5px solid black;
-    float: left;
-    text-align: center;
-    position: relative;
-    top: 500px;
 }
 .juego {
     background: #e7b250;
@@ -209,25 +205,29 @@ table {
     background: #414141;
 }
 .inicio {
-    margin-top: 10px;
+    margin-top: 130px;
     position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
 }
-.inicio .mapa {
-    position:relative;
-    top: 50px;;
-    left:0;
+.menu_iniciar_partida {
+    display: flex;
+    flex-direction: column;
 }
-.inicio .iniciar_partida{
-    margin-right: 10px;
-    position:absolute;
-    top:500;
-    right:0;
+.iniciar_partida{
+    display: flex;
+    flex-direction: column;
 }
-.inicio .personaje {
-    margin-right: 10px;
-    position:absolute;
-    top: 280px;
-    right: 0;
-    background: #afafaf;
-    border: 5px solid black;
+.iniciar_partida select {
+    margin-bottom: 20px;
+}
+.personaje {
+    padding-right: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.personaje img {
+    margin-top: 35px
 }

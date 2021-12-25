@@ -2,64 +2,63 @@
 
 
 {% block content %}      
-    {% load static %}
-    <head>
-    </head>
-    <body>
-        <div class="inicio" style="position: relative; top: 50px">
-            <div class= "mapa">
-                <img src="{% static 'Mapa.png' %}" width="746" height="482"/>
-            </div>
+{% load static %}
+<head>
+    <style>
+        .btn_mapa {
+            font-size: 100%;
+            width: 150px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="inicio">
+        <div class="mapa">
+            <img src="{% static 'Mapa.png' %}" width="667" height="470"/>
+        </div>
+        <div class="menu_iniciar_partida">
             <form method="POST" action="">
                 {% csrf_token %}
-                <div class="iniciar_partida" style="position: relative; top: 100px">
+                <div class="iniciar_partida">
                     <select style="font-size: 100%; width: 400px; height: 40px; text-align:center;" name="dificultad" required>
                         <option value="" disabled selected>DIFICULTAD</option>
-                        <option value="1">FÁCIL</option> 
-                        <option value="2">NORMAL</option> 
+                        <option value="1">FÁCIL</option>
+                        <option value="2">NORMAL</option>
                         <option value="3">DIFÍCIL</option>
                     </select>
-                    <br><br>
                     <select style="font-size: 100%; width: 400px; height: 40px; text-align:center;" name="personaje" id="select_personaje" required>
                         <option value="" disabled selected>PERSONAJE</option>
-                        <option value="gaucho">GAUCHO</option> 
-                        <option value="china">CHINA</option> 
+                        <option value="gaucho">GAUCHO</option>
+                        <option value="china">CHINA</option>
                     </select>
-                    <br><br><br><br>
-                    <input type="submit" style="font-size: large;" class="btn btn-danger" value="JUGAR">
+                </div>
+                <div class="personaje" style="background-color: transparent;">
+                    <input type="submit" style="font-size: large;" class="btn btn-danger btn_mapa" value="Jugar">
+                    <img src="{% static 'Sin_seleccionar.png' %}" width="138" height="349" id="personaje">
                 </div>
             </form>
-            <div class="personaje" style="background-color : transparent; border: solid transparent">
-                <img src="{% static 'Sin_seleccionar.png' %}" width="138" height="349" id="personaje">
-            </div>
         </div>
-        <script>
-            var e = document.getElementById("select_personaje");
-            var img = document.getElementById('personaje');
-            var img_gaucho = "{% static 'Gaucho.png' %}";
-            var img_china = "{% static 'China.png' %}";
-            var img_vacia = "{% static 'Sin_seleccionar.png' %}";
-
-            function show(){
-                var as_ = document.forms[0].select_personaje.value;
-                if (as_ == 'gaucho') {
-                    img.src = img_gaucho;
-                } else if (as_ == 'china') {
-                    img.src = img_china;
-                } else {
-                    img.src = img_vacia;
-                }
-            }
-            e.onchange=show;
-            show();
-        </script>
-        <div style="position: relative; top: 400px">
-
-
-
     </div>
-    </body>
-    <br><br><br><br><br><br><br><br><br><br>
-
+    <script>
+        var e = document.getElementById("select_personaje");
+        var img = document.getElementById('personaje');
+        var img_gaucho = "{% static 'Gaucho.png' %}";
+        var img_china = "{% static 'China.png' %}";
+        var img_vacia = "{% static 'Sin_seleccionar.png' %}";
+        function show(){
+            var as_ = document.forms[0].select_personaje.value;
+            if (as_ == 'gaucho') {
+                img.src = img_gaucho;
+            } else if (as_ == 'china') {
+                img.src = img_china;
+            } else {
+                img.src = img_vacia;
+            }
+        }
+        e.onchange=show;
+        show();
+    </script>
+</body>
 
 {% endblock %}
