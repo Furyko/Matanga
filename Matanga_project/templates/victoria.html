@@ -1,34 +1,49 @@
 {% extends 'templates/base.html' %}
 
 {% block content %}
+<head>
+    <style>
+        .cuadro_resultado {
+            margin-top: 170px;
+            margin-bottom: 40px;
+        }
+        .cuadro_resultado span {
+            line-height: 100px;
+        }
+        .compartir_resultado {
+            margin-bottom: 20px;
+        }
+        .btn_victoria {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
 <body>
-    <br><br><br><br><br><br><br>
-    <div style="text-align:center">
+    <div class="cuadro_resultado" style="text-align:center;">
         <div class="victoria">
-            <br>
-            <label for="formFile" class="form-label">¡TERMINASTE!</label>
+            <span class="">¡TERMINASTE!</span>
         </div>
-            <label style="font-size: larger;" for="">PUNTAJE: {{puntaje}}</label>
+        <div>
+            <label style="font-size: larger;">PUNTAJE: {{puntaje}}</label>
         </div>
     </div>
-    <br><br>
     {% load social_share %}
     <div class="compartir_resultado" style="text-align:center;">
         {% post_to_twitter "¡Conseguí {{puntaje}} puntos en Matanga!" '' "¡Postear en Twitter!" %}
         {% post_to_reddit "¡Conseguí {{puntaje}} puntos en Matanga!" '' "¡Postear en Reddit!" %}
     </div>
-    <br>
-    <div style="text-align: center;">
-        <form action="{% url 'ranking' %}">
-            <input style="font-size: large" type="submit" class="btn-danger" value="RANKING">
-        </form>
-        <br>
-        <form action="{% url 'inicio' %}">
-            <input style="font-size: large" type="submit" class="btn-danger" value="MENU PRINCIPAL">
-        </form>
+    <div style="text-align:center;">
+        <div class="btn_victoria">
+            <form action="{% url 'ranking' %}">
+                <input style="font-size: large" type="submit" class="btn-danger" value="Ranking">
+            </form>
+        </div>
+        <div class="btn_victoria">
+            <form action="{% url 'inicio' %}">
+                <input style="font-size: large" type="submit" class="btn-danger" value="Menú principal">
+            </form>
+        </div>
     </div>
-    <br><br><br><br>
 </body>
-
 
 {% endblock %}
